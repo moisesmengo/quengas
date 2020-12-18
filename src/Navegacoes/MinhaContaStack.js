@@ -1,10 +1,10 @@
 import React from 'react'
-import {createStackNavigation} from '@react-navigation/stack'
+import {createStackNavigator} from '@react-navigation/stack'
 
 import  MeusAnuncios from '../Telas/MeusAnuncios/MeusAnuncios'
 import  EditarAnuncio from '../Telas/MeusAnuncios/EditarAnuncio'
 
-const Stack = new createStackNavigation()
+const Stack = new createStackNavigator()
 
 export default function MinhaContaStack(){
     return(

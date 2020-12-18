@@ -1,5 +1,5 @@
 import React from 'react'
-import {createStackNavigation} from '@react-navigation/stack'
+import {createStackNavigator} from '@react-navigation/stack'
 
 import Anuncio from '../Telas/Anuncio/Anuncios'
 import AddAnuncio from '../Telas/Anuncio/AddAnuncio'
@@ -7,18 +7,18 @@ import Contato from '../Telas/Anuncio/Contato'
 import Detalhe from '../Telas/Anuncio/Detalhe'
 import MensagensLista from '../Telas/Anuncio/MensagensLista'
 
-const Stack = createStackNavigation()
+const Stack = createStackNavigator()
 
 export default function AnuncioStack(){
   return(
     <Stack.Navigator>
-      <Stack.Scree 
+      <Stack.Screen
         component = {Anuncio} 
         name = "anuncio" 
         options = {{headerShown: false}}
       />
 
-      <Stack.Scree 
+      <Stack.Screen
         component = {AddAnuncio} 
         name = "add-anuncio" 
         options = {{
@@ -28,7 +28,7 @@ export default function AnuncioStack(){
         }}
       />
 
-      <Stack.Scree 
+      <Stack.Screen
         component = {Detalhe} 
         name = "detalhe" 
         options = {{
@@ -38,7 +38,7 @@ export default function AnuncioStack(){
         }}
       />
 
-      <Stack.Scree 
+      <Stack.Screen
         component = {MensagensLista} 
         name = "mensagem-lista" 
         options = {{
@@ -48,7 +48,7 @@ export default function AnuncioStack(){
         }}
       />
 
-      <Stack.Scree 
+      <Stack.Screen
         component = {Contato} 
         name = "contato" 
         options = {{

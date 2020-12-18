@@ -1,19 +1,36 @@
 import React from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {Icon} from 'react-native-elements'
 import {createDrawerNavigator} from '@react-navigation/drawer'
 import {NavigationContainer} from '@react-navigation/native'
+import { Icon } from 'react-native-elements'
 
 import AnuncioStack from './AnuncioStack'
 import PerfilStack from './PerfilStack'
 import MinhaContaStack from './MinhaContaStack'
+import ShopButton from '../Componentes/ShopButton'
 
 const Tab = createBottomTabNavigator()
 const Drawer = createDrawerNavigator()
 
 const TabBar = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            initialRouteName="anuncio"
+            tabBarOptions={{
+                inactiveTintColor: "#e8e3d4",
+                activeTintColor: "#e8e3d4",
+                style:{
+                    borderTopLeftRadius: 60,
+                    borderTopRightRadius: 60,
+                    alignItems: "center",
+                    backgroundColor: "#cd090b",
+                    paddingBottom: 5,
+                }
+            }}
+            screenOptions = {({route}) => ({
+                tabBarIcon: ({cor}) => mostrarIcon(route, cor)
+            })}
+        >
             <Tab.Screen 
                 component = {AnuncioStack}
                 name = "anuncio"
@@ -24,9 +41,9 @@ const TabBar = () => {
 
             <Tab.Screen 
                 component = {MinhaContaStack}
-                name = "minha-conta"
+                name = "meus-anuncios"
                 options ={{
-                    title: ""
+                    title: "", tabBarIcon: () => <ShopButton/>
                 }}
             />
 
@@ -38,6 +55,25 @@ const TabBar = () => {
                 }}
             />
         </Tab.Navigator>
+    )
+}
+
+function mostrarIcon(route, cor){
+    let iconName = ""
+    switch(route.name){
+        case "anuncio":
+            iconName = "cart-outline"
+            break
+        case "conta":
+            iconName = "account-circle-outline"
+            break
+        case "minha-conta":
+            iconName = "cart-outline"
+            break
+    }
+
+    return (
+        <Icon type="material-community" name={iconName} size={24} color={cor}/>
     )
 }
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import {createStackNavigation} from '@react-navigation/stack'
+import {createStackNavigator} from '@react-navigation/stack'
 
 import EnviarConfirmacao from '../Telas/Contas/EnviarConfirmacao'
 import ConfirmarNumero from '../Telas/Contas/ConfirmarNumero'
 
-const Stack = createStackNavigation()
+const Stack = createStackNavigator()
 
-export function PerfilStack(){
+export default function PerfilStack(){
     return(
         <Stack.Navigator>
             <Stack.Screen 

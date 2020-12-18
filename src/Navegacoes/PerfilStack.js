@@ -1,11 +1,11 @@
 import React from 'react'
-import {createStackNavigation} from '@react-navigation/stack'
+import {createStackNavigator} from '@react-navigation/stack'
 
 import Perfil from '../Telas/Perfil/Perfil'
 
-const Stack = createStackNavigation()
+const Stack = createStackNavigator()
 
-export function PerfilStack(){
+export default function PerfilStack(){
     return(
         <Stack.Navigator>
             <Stack.Screen 
