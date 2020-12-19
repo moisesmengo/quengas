@@ -13,6 +13,8 @@ export default function RegisterForm(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigation = useNavigation()
+    const [show, setShow] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
 
     const criarConta = () =>{
         if(isEmpty(email) || isEmpty(password) || isEmpty(confirmarPassword)){
@@ -60,9 +62,9 @@ export default function RegisterForm(props) {
                 containerStyle={styles.input}
                 rightIcon={{
                     type: 'material-community',
-                    name: 'eye-outline',
+                    name: show ? 'eye-off-outline' : 'eye-outline',
                     color: '#5c2a2d',
-                    onPress: () => alert ('OIII Quenga')
+                    onPress: () =>setShow(!show)
                 }}
                 leftIcon={
                     {
@@ -74,7 +76,7 @@ export default function RegisterForm(props) {
                 onChangeText={(text) => {
                     setPassword(text)
                 }}
-                secureTextEntry={true}
+                secureTextEntry={!show}
                 value={password}
             />
             <Input
@@ -82,9 +84,9 @@ export default function RegisterForm(props) {
                 containerStyle={styles.input}
                 rightIcon={{
                     type: 'material-community',
-                    name: 'eye-outline',
+                    name: showConfirm ? 'eye-off-outline' : 'eye-outline',
                     color: '#5c2a2d',
-                    onPress: () => alert ('OIII Quenga')
+                    onPress: () =>setShowConfirm(!showConfirm)
                 }}
                 leftIcon={
                     {
@@ -96,7 +98,7 @@ export default function RegisterForm(props) {
                 onChangeText={(text) => {
                     setConfirmarPassword(text)
                 }}
-                secureTextEntry={true}
+                secureTextEntry={!showConfirm}
                 value={confirmarPassword}
             />
 
