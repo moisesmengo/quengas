@@ -3,8 +3,9 @@ import { StyleSheet, Text, View} from 'react-native'
 import { Icon, Button, Input} from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 import {validarEmail} from '../Utils/Utils'
-import {isEmpty} from 'lodash'
+import {isEmpty, size} from 'lodash'
 import * as firebase from 'firebase'
+
 
 export default function RegisterForm(props) {
     const [confirmarPassword, setConfirmarPassword] = useState("")
@@ -12,6 +13,18 @@ export default function RegisterForm(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigation = useNavigation()
+
+    const criarConta = () =>{
+        if(isEmpty(email) || isEmpty(password) || isEmpty(confirmarPassword)){
+            toastRef.current.show("Preencha todos os campos!")
+        }else if (!validarEmail(email)){
+            toastRef.current.show("E-mail não é valido!")
+        }else if (password !== confirmarPassword){
+            toastRef.current.show("As senhas devem ser iguais!")
+        }else if (size(password) < 6){
+            toastRef.current.show("As senhas devem ter ao menos 6 caracteres!")
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -37,6 +50,10 @@ export default function RegisterForm(props) {
                         color: '#5c2a2d',
                     }
                 }
+                onChangeText={(text) => {
+                    setEmail(text)
+                }}
+                value={email}
                             />
              <Input
                 placeholder="Senha"
@@ -86,7 +103,7 @@ export default function RegisterForm(props) {
             <Button title="CRIAR CONTA" 
                 containerStyle={styles.btnEntrar} 
                 buttonStyle={{backgroundColor:"#ce615e"}}
-                onPress = {()=> alert("criar conta")}
+                onPress = {()=> criarConta()}
             />
 
             <Button title="INICIAR SESSÃO" 

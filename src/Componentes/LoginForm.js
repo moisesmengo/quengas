@@ -56,7 +56,11 @@ export default function LoginForm(props){
                         color: '#5c2a2d',
                     }
                 }
-                            />
+                onChangeText={(text) => {
+                    setEmail(text)
+                }}
+                value={email}
+            />
              <Input
                 placeholder="Senha"
                 containerStyle={styles.input}
