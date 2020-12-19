@@ -10,3 +10,7 @@ export const validarSesssao = () =>{
         }
     })
 }
+
+export const encerrarSessao = () =>{
+    firebase.auth().signOut()
+}

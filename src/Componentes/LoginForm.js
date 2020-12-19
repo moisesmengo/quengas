@@ -4,18 +4,21 @@ import { Icon, Button, Divider, Input} from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 import {validarEmail} from '../Utils/Utils'
 import {isEmpty} from 'lodash'
-import {validarSesssao} from '../Utils/Acoes'
+import {validarSesssao, encerrarSessao} from '../Utils/Acoes'
 import * as firebase from 'firebase'
+import Loading from'../Componentes/Loading'
 
 export default function LoginForm(props){
 
     const {toastRef} = props
+    const navigation = useNavigation()
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const navigation = useNavigation()
     const [showConfirm, setShowConfirm] = useState(false)
+    const [loading, setLoanding] = useState(false)
 
-    validarSesssao()
+    // encerrarSessao()
 
     const iniciarSessao = () =>{
         if(isEmpty(email) || isEmpty(password)) {
@@ -23,12 +26,18 @@ export default function LoginForm(props){
         }else if (!validarEmail(email)){
             toastRef.current.show("Você deve inserir um E-mail válido")
         }else{
-            firebase.auth().signInWhithEmailAndPassword(email, password)
+            setLoanding(true)
+            firebase
+                .auth()
+                .signInWithEmailAndPassword(email, password)
                 .then(()=>{
-                    alert("tudo bem")
+                    setLoanding(false)
+                    toastRef.current.show("Login realizado com sucesso")
+
+                    console.log(firebase.auth().currentUser)
                 }).catch((err)=> {
-                    alert("error")
-                    toastRef.current.show("E-mail ou Senha incorretos")
+                    setLoanding(false)
+                    toastRef.current.show("Erro ao tentar iniciar sessão")
                 })
         }
     }
@@ -131,6 +140,7 @@ export default function LoginForm(props){
                 </TouchableOpacity>
             </View>
 
+            <Loading isVisible= {loading}/>
         </View>
     )
 }
