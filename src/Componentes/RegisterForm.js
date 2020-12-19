@@ -9,13 +9,16 @@ import Loading from '../Componentes/Loading'
 
 
 export default function RegisterForm(props) {
+    
+    const {toastRef} = props 
+    const navigation = useNavigation()   
+    
     const [confirmarPassword, setConfirmarPassword] = useState("")
-    const {toastRef} = props
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const navigation = useNavigation()
     const [show, setShow] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const criarConta = () =>{
         if(isEmpty(email) || isEmpty(password) || isEmpty(confirmarPassword)){
@@ -26,6 +29,18 @@ export default function RegisterForm(props) {
             toastRef.current.show("As senhas devem ser iguais!")
         }else if (size(password) < 6){
             toastRef.current.show("As senhas devem ter ao menos 6 caracteres!")
+        }else{
+            setLoading(true)
+            firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password)
+                .then((r)=>{
+                   alert("Novo usuário criado com sucesso")
+                    setLoading(false)
+                }).catch(err => {
+                    setLoading(false)
+                    alert("Ocorreu um erro ou o usuário já está cadastrado no sistema!")
+                })
         }
     }
 
@@ -115,7 +130,7 @@ export default function RegisterForm(props) {
                 onPress = {()=> navigation.goBack()}
             />
 
-            <Loading isVisible={true}/>
+            <Loading isVisible={loading}/>
         </View>
     )
 }
