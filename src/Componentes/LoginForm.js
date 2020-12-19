@@ -4,17 +4,31 @@ import { Icon, Button, Divider, Input} from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 import {validarEmail} from '../Utils/Utils'
 import {isEmpty} from 'lodash'
+import {validarSesssao} from '../Utils/Acoes'
+import * as firebase from 'firebase'
 
 export default function LoginForm(props){
+
     const {toastRef} = props
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigation = useNavigation()
+
+    validarSesssao()
 
     const iniciarSessao = () =>{
         if(isEmpty(email) || isEmpty(password)) {
             toastRef.current.show("Você deve inserir os valores de E-mail e Senha")
         }else if (!validarEmail(email)){
             toastRef.current.show("Você deve inserir um E-mail válido")
+        }else{
+            firebase.auth().signInWhithEmailAndPassword(email, password)
+                .then(()=>{
+                    alert("tudo bem")
+                }).catch((err)=> {
+                    alert("error")
+                    toastRef.current.show("E-mail ou Senha incorretos")
+                })
         }
     }
 
@@ -73,7 +87,12 @@ export default function LoginForm(props){
             />
 
             <Text style={styles.criarContaTexto}>
-                Ainda não é uma Quenga? <Text style={styles.conta}> Criar conta</Text>  
+                Ainda não é uma Quenga? 
+                    <Text 
+                        style={styles.conta}
+                        onPress={()=> navigation.navigate("registro")}
+                    > Criar conta
+                    </Text>  
             </Text>
 
             <Divider 
@@ -133,7 +152,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     criarContaTexto:{
-        marginTop: 10
+        marginTop: 20
     },
     conta:{
         color: "#cd090b",
