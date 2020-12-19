@@ -13,6 +13,7 @@ export default function LoginForm(props){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigation = useNavigation()
+    const [showConfirm, setShowConfirm] = useState(false)
 
     validarSesssao()
 
@@ -47,7 +48,6 @@ export default function LoginForm(props){
                     type: 'material-community',
                     name: 'at',
                     color: '#5c2a2d',
-                    onPress: () => alert ('OIII Quenga')
                 }}
                 leftIcon={
                     {
@@ -66,9 +66,9 @@ export default function LoginForm(props){
                 containerStyle={styles.input}
                 rightIcon={{
                     type: 'material-community',
-                    name: 'eye-outline',
+                    name: showConfirm ? 'eye-off-outline' : 'eye-outline',
                     color: '#5c2a2d',
-                    onPress: () => alert ('OIII Quenga')
+                    onPress: () =>setShowConfirm(!showConfirm)
                 }}
                 leftIcon={
                     {
@@ -80,7 +80,7 @@ export default function LoginForm(props){
                 onChangeText={(text) => {
                     setPassword(text)
                 }}
-                secureTextEntry={true}
+                secureTextEntry={!showConfirm}
                 value={password}
             />
 

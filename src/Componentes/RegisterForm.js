@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import {validarEmail} from '../Utils/Utils'
 import {isEmpty, size} from 'lodash'
 import * as firebase from 'firebase'
+import Loading from '../Componentes/Loading'
 
 
 export default function RegisterForm(props) {
@@ -113,6 +114,8 @@ export default function RegisterForm(props) {
                 buttonStyle={{backgroundColor:"#0b070b"}}
                 onPress = {()=> navigation.goBack()}
             />
+
+            <Loading isVisible={true}/>
         </View>
     )
 }
