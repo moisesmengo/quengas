@@ -3,8 +3,20 @@ import {View, Text, StyleSheet, Image } from 'react-native'
 import CodeInput from 'react-native-code-input'
 import {useNavigation} from '@react-navigation/native'
 import Loading from '../../Componentes/Loading'
+import {confirmarCodigo} from '../../Utils/Acoes'
 
-export default function ConfirmarNumero(){
+export default function ConfirmarNumero(props){
+
+    const {route} = props
+    const {verificationid} = route.params
+
+    const [loading, setLoading] = useState(false)
+
+    const confirmarCodigoSMS = async (code) =>{
+        const resultado = await confirmarCodigo(verificationid, code)
+        alert(resultado)
+    }
+
     return(
         <View style={styles.container}>
             <Image 
@@ -16,13 +28,15 @@ export default function ConfirmarNumero(){
             <CodeInput
                 activeColor="#e8e3d4" inactiveColor="#e8e3d4"
                 autoFocus = {true}  inputPosition="center"
-                size={50} codeLenght={6} containerStyle= {{
+                size={50} codeLength={6} containerStyle= {{
                     marginTop: 30
                 }} codeInputStyle={{borderWidth: 1.5}}
-                onFullfill = {(code) =>{
-                    console.log(code)
+                onFulfill = {(code) =>{
+                   confirmarCodigoSMS(code)
                 }}
             />
+
+            <Loading isVisible={loading} />
         </View>
     )
 }
