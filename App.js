@@ -1,12 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, YellowBox } from 'react-native';
 import RotasAutenticadas from './src/Navegacoes/RotasAutenticadas'
 import RotasNaoAutenticadas from './src/Navegacoes/RotasNaoAutenticadas'
+import { encerrarSessao, validarSesssao } from './src/Utils/Acoes'
+import SwitchNavigator  from './src/Navegacoes/SwitchNavigator'
+import Loading from './src/Componentes/Loading';
+
+YellowBox.ignoreWarnings(["Animated"])
 
 export default function App() {
+
+  const [user, setUser] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(()=>{
+    setLoading(true)
+    validarSesssao(setUser)
+    setLoading(false)
+  }, [])
+  
+  if(loading){
+    return <Loading isVisible={loading} />
+  }
+
   return (
-    <RotasNaoAutenticadas />
+      user ? < SwitchNavigator /> : <RotasNaoAutenticadas />
   );
 }
 

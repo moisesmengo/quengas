@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn add react-native-animated-spinkit
+  /usr/bin/node /usr/bin/yarn
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -14,7 +14,17 @@ Platform:
   linux x64
 
 Trace: 
-  Error: EACCES: permission denied, mkdir '/home/moises/projetos/Quengas/node_modules/@firebase/firestore/dist/firestore/exp/src'
+  Error: https://registry.yarnpkg.com/react-native-country-picker-modal1: Not found
+      at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66988:18)
+      at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140662:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141634:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:141556:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {
@@ -32,6 +42,7 @@ npm manifest:
       "@react-navigation/drawer": "~5.9.0",
       "@react-navigation/native": "~5.1.5",
       "@react-navigation/stack": "~5.2.10",
+      "react-native-country-picker-modal1": "~4.0.0",
       "expo": "~40.0.0",
       "expo-cli": "^4.0.15",
       "expo-status-bar": "~1.0.3",
