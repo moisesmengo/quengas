@@ -1,16 +1,49 @@
 import React, {useState, useRef} from 'react'
-import {View, Text, StyleSheet, TextInput, Image } from 'react-native'
+import {View, Text, StyleSheet, TextInput, Image, Alert } from 'react-native'
 import {Button, colors, Icon} from 'react-native-elements'
 import {useNavigation} from '@react-navigation/native'
 import {isEmpty, matchesProperty} from 'lodash'
 import CountryPicker from 'react-native-country-picker-modal'
-
+import FirebaseRecapcha from '../../Utils/FirebaseRecapcha'
+import {confirmar} from '../../Utils/Acoes'
 
 export default function EnviarConfirmacao(){
 
     const [country, setCountry] = useState("BR")
     const [callingCode, setCallingCode] = useState("55")
     const [phone, setPhone] = useState("")
+
+    const recapchaVerifier = useRef()
+    const inputPhone = useRef()
+    const navigation = useNavigation()
+
+    const enviarConfirmacao = async () =>{
+        if(!isEmpty(phone)){
+            const numero = `+${callingCode}${phone}`
+            const verificationid = await confirmar(
+                numero, recapchaVerifier
+            )
+
+            if(!isEmpty(verificationid)){
+                navigation.navigate("confirmar-numero", {
+                    verificationid
+                })
+            }else{
+                Alert.alert(
+                    "Verificação", 
+                    "Digite um número de telefone válido",
+                    [{
+                        style: "cancel",
+                        text: "Entendido",
+                        onPress: ()=>{
+                            inputPhone.current.clear()
+                            inputPhone.current.focus()
+                        }
+                    }]
+                )
+            }
+        }
+    }
 
     return(
         <View style={styles.container}>
@@ -56,6 +89,7 @@ export default function EnviarConfirmacao(){
                             placeholderTextColor="#e8e3d4"
                             onChangeText={(text) => setPhone(text)}
                             value={phone}
+                            ref={inputPhone}
                         />
 
                     </View>
@@ -67,11 +101,13 @@ export default function EnviarConfirmacao(){
                             marginHorizontal: 20,
                         }}
                         containerStyle={{marginVertical: 20}}
+                        onPress={()=> enviarConfirmacao()}
                     />
 
                 </View>
                
             </View>
+            <FirebaseRecapcha referencia={recapchaVerifier} />
         </View>
     )
 }
