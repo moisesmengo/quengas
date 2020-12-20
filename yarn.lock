@@ -11483,6 +11483,14 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-native-code-input@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-code-input/-/react-native-code-input-1.0.6.tgz#da4b0c0e04f140698320bc81cff1107e211fe923"
+  integrity sha1-2ksMDgTxQGmDILyBz/EQfiEf6SM=
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+
 react-native-country-picker-modal@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-country-picker-modal/-/react-native-country-picker-modal-2.0.0.tgz#005421303349a81fedf5975e465405bb4b7312d5"

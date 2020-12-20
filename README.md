@@ -18,4 +18,6 @@ aplicativo ou pelo whatsapp.
 - Registro de prostituta (por email, facebook ou google);
 - Validação de e-mail;
 - Validação de senhas;
+- Recapcha de verificação;
+- Confirmação de perfil por SMS;
 - Login;
