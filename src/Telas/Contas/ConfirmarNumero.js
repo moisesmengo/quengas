@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image } from 'react-native'
 import CodeInput from 'react-native-code-input'
 import {useNavigation} from '@react-navigation/native'
 import Loading from '../../Componentes/Loading'
-import {confirmarCodigo, obterToken} from '../../Utils/Acoes'
+import {confirmarCodigo, obterToken, ObterUsuario, addRegistro} from '../../Utils/Acoes'
 
 export default function ConfirmarNumero(props){
 
@@ -14,7 +14,16 @@ export default function ConfirmarNumero(props){
 
     const confirmarCodigoSMS = async (code) =>{
         //const resultado = await confirmarCodigo(verificationid, code)
-        alert(await obterToken())
+        const token = await obterToken()
+        const {uid, displayName, photoURL, email, phoneNumber} = ObterUsuario()
+        const registro = await addRegistro("Usuario", uid, {
+            token,
+            displayName,
+            photoURL,
+            email,
+            phoneNumber,
+            datacriacao: new Date()
+        })
     }
 
     return(

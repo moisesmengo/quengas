@@ -1,13 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, YellowBox } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import RotasAutenticadas from './src/Navegacoes/RotasAutenticadas'
 import RotasNaoAutenticadas from './src/Navegacoes/RotasNaoAutenticadas'
 import { encerrarSessao, validarSesssao } from './src/Utils/Acoes'
 import SwitchNavigator  from './src/Navegacoes/SwitchNavigator'
 import Loading from './src/Componentes/Loading';
+import {decode, encode} from 'base-64'
 
-YellowBox.ignoreWarnings(["Animated"])
+if(!global.btoa){
+  global.btoa = encode
+}
+if(!global.atob){
+  global.atob = decode
+}
 
 export default function App() {
 

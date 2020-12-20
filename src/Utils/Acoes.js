@@ -3,6 +3,18 @@ import * as firebase from 'firebase';
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import {Plataform} from 'react-native'
+import "firebase/firestore"
+
+const db = firebase.firestore(firebaseapp)
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true
+    })
+})
 
 export const validarSesssao = (setValidarSessao) =>{
     firebase.auth().onAuthStateChanged((user)=>{
@@ -80,4 +92,24 @@ export const obterToken =  async ()=> {
     }
   
     return token;
+  }
+
+  export const ObterUsuario = () =>{
+      return firebase.auth().currentUser
+  }
+
+  export const addRegistro = async (collec, doc, data) =>{
+    const resultado = {
+        error: "",
+        statusresponse : false,
+        data: false
+    }
+
+    await db.collection(collec).doc(doc).set(data)
+        .then(response => {
+            resultado.statusresponse = true
+        }).catch(err => {
+            resultado.error = err
+        })
+
   }
