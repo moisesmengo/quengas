@@ -32,7 +32,7 @@ export default function App() {
 
   return (
       user ? < SwitchNavigator /> : <RotasNaoAutenticadas />
-  );
+  )
 }
 
 const styles = StyleSheet.create({

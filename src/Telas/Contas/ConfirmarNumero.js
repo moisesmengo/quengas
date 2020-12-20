@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react'
-import {View, Text, StyleSheet, Image } from 'react-native'
+import {View, Text, StyleSheet, Image, Alert } from 'react-native'
 import CodeInput from 'react-native-code-input'
 import {useNavigation} from '@react-navigation/native'
 import Loading from '../../Componentes/Loading'
@@ -7,23 +7,45 @@ import {confirmarCodigo, obterToken, ObterUsuario, addRegistro} from '../../Util
 
 export default function ConfirmarNumero(props){
 
-    const {route} = props
+    const { route } = props
     const {verificationid} = route.params
 
     const [loading, setLoading] = useState(false)
 
     const confirmarCodigoSMS = async (code) =>{
-        //const resultado = await confirmarCodigo(verificationid, code)
-        const token = await obterToken()
-        const {uid, displayName, photoURL, email, phoneNumber} = ObterUsuario()
-        const registro = await addRegistro("Usuario", uid, {
-            token,
-            displayName,
-            photoURL,
-            email,
-            phoneNumber,
-            datacriacao: new Date()
-        })
+
+        setLoading(true)
+
+        const resultado = await confirmarCodigo(verificationid, code)
+
+        console.log(resultado)
+
+        if(resultado){
+            const token = await obterToken()
+            const {uid, displayName, photoURL, email, phoneNumber} = ObterUsuario()
+
+            const registro = await addRegistro("Usuario", uid, {
+                token,
+                displayName,
+                photoURL,
+                email,
+                phoneNumber,
+                datacriacao: new Date()
+            })
+            setLoading(false)
+
+        }else{
+            Alert.alert(
+                "Error",
+                "Por favor valide o código de verificação!!!",
+                [{
+                    style: "default",
+                    text: "Entendido"
+                }]
+            )
+            setLoading(false)
+
+        }
     }
 
     return(
@@ -39,10 +61,12 @@ export default function ConfirmarNumero(props){
                 autoFocus = {true}  inputPosition="center"
                 size={50} codeLength={6} containerStyle= {{
                     marginTop: 30
-                }} codeInputStyle={{borderWidth: 1.5}}
+                }}
+                codeInputStyle={{borderWidth: 1.5}}
                 onFulfill = {(code) =>{
                    confirmarCodigoSMS(code)
                 }}
+                secureTextEntry
             />
 
             <Loading isVisible={loading} />

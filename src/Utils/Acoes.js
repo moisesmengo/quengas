@@ -30,12 +30,13 @@ export const encerrarSessao = () =>{
     firebase.auth().signOut()
 }
 
-export const validarPhone = (setPhoneAuth) =>{
-    firebase.auth().onAuthStateChanged((user)=>{
-        if (user.phoneNumber){
-            setPhoneAuth(true)
-        }
-    })
+export const validarPhone = (setphoneauth) =>{
+     db.collection("Usuario")
+        .doc(ObterUsuario().uid)
+        .onSnapshot(snapshot => {
+            setphoneauth(snapshot.exists)
+        })
+    
 }
 
 export const confirmar = async (numero, recapcha) =>{
@@ -99,10 +100,10 @@ export const obterToken =  async ()=> {
   }
 
   export const addRegistro = async (collec, doc, data) =>{
+
     const resultado = {
         error: "",
         statusresponse : false,
-        data: false
     }
 
     await db.collection(collec).doc(doc).set(data)
