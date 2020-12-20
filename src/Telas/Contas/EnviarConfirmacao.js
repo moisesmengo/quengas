@@ -62,13 +62,13 @@ export default function EnviarConfirmacao(){
 
                 <View style={styles.painelinterno}>
                     <Icon 
-                        name="whatsapp"
+                        name="phone"
                         type="material-community"
                         size={100}
                         color="#25d366"
                     />
 
-                    <Text style={styles.titulo}>Por favor Insira seu número de WhatsApp</Text>
+                    <Text style={styles.titulo}>Por favor Insira seu número de celular</Text>
                     <View style={styles.telefone}>
                         <CountryPicker  
                             withFlag
