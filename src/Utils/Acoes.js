@@ -147,3 +147,13 @@ export const atualizarPerfil = async (data) =>{
         })
     return resposta
 }
+
+export const Reautenticar = async(verificationId, codigo)=>{
+    let response = {statusresponse: false}
+    const credenciais = new Firebase.aut.PhoneAuthProvider.credenciais(verificationId, codigo)
+
+    await firebase.auth().currentUser.reauthenticateWithCredential(credenciais)
+        .then(resultado => response.statusresponse = true)
+
+        return response
+}

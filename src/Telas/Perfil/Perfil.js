@@ -5,8 +5,10 @@ import {carregarImagens} from '../../Utils/Utils'
 import Loading from '../../Componentes/Loading'
 import InputEditavel from '../../Componentes/InputEditavel'
 import Modal from '../../Componentes/Modal'
+import CodeInput from 'react-native-code-input'
+import FirebaseRecapcha from '../../Utils/FirebaseRecapcha'
 
-import {SubirImagensBatch, addRegistro, atualizarPerfil, ObterUsuario} from '../../Utils/Acoes'
+import {SubirImagensBatch, addRegistro, atualizarPerfil, ObterUsuario, confirmarCodigo} from '../../Utils/Acoes'
 import { cos } from 'react-native-reanimated'
 
 export default function Perfil(){
@@ -19,6 +21,9 @@ export default function Perfil(){
     const [editavelNome, setEditavelNome] = useState(false)
     const [editavelEmail, setEditavelEmail] = useState(false)
     const [editavelPhone, setEditavelPhone] = useState(false)
+
+    const [verificationId, setVerificationId] = useState("")
+    const [isVisible, setIsVisible] = useState(true)
 
     const usuario = ObterUsuario()
 
@@ -74,6 +79,10 @@ export default function Perfil(){
             }
     }
 
+    const confirmarCodigo = async ()=>{
+        console.log("confirmar codigo")
+    }
+
     return(
         <View>
             <StatusBar backgroundColor="#cd090b" />
@@ -94,6 +103,13 @@ export default function Perfil(){
                 setEditavelPhone={setEditavelPhone}
                 editavelPhone={editavelPhone}
                 atualizarValor={atualizarValor}
+            />
+
+            <ModalVerification
+                isVisibleModal = {isVisible}
+                setIsVisibleModal = {setIsVisible}
+                verificationid = {verificationId}
+                confirmarCodigo={confirmarCodigo}
             />
             <Loading isVisible={loading} />
         </View>
@@ -217,6 +233,32 @@ function FormDados (props){
     )
 }
 
+function ModalVerification(props){
+    const {isVisibleModal, setIsVisibleModal, confirmarCodigo, verificationid} = props
+
+    return(
+        <Modal isVisible={isVisibleModal} setIsVisible={setIsVisibleModal}>
+            <View style={styles.confirmacao}>
+                <Text style={styles.titulomodal}>Confirmar Código</Text>
+                <Text style={styles.detalhe}>Foi enviado um código de verificação para seu número de telefone</Text>
+
+                <CodeInput 
+                    secureTextEntry
+                    activeColor="#cd090b"
+                    inactiveColor="#cd090b"
+                    autoFocus = {false}
+                    inputPosition= "center"
+                    size={40}
+                    containerStyle={{marginTop: 30}}
+                    codeInputStyle={{borderWidth: 1.5}}
+                    codeLength={6}
+                />
+            </View>
+        </Modal>
+    )
+
+}
+
 const styles = StyleSheet.create({
     bg:{
         width: "100%",
@@ -237,5 +279,20 @@ const styles = StyleSheet.create({
         height: 100,
         backgroundColor: '#c0c0c0',
         borderRadius: 50,
+    },
+    confirmacao:{
+        height: 200,
+        width: '100%',
+        alignItems: 'center'
+    },
+    titulomodal:{
+        fontWeight: 'bold',
+        fontSize: 18,
+        marginTop: 20
+    },
+    detalhe:{
+        marginTop: 20,
+        fontSize: 14,
+        textAlign: 'center'
     }
 })
