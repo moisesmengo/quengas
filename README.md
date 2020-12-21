@@ -10,10 +10,13 @@ aplicativo ou pelo whatsapp.
 
 ### Tecnologias utilizadas
 
-- React Native
+- React native
 - Firebase
+  -- Authentication
+  -- Cloud Firestore
+  -- Storage
 
-### Funções
+### Serviços
 
 - Registro de prostituta (por email, facebook ou google);
 - Validação de e-mail;
@@ -21,3 +24,4 @@ aplicativo ou pelo whatsapp.
 - Recapcha de verificação;
 - Confirmação de perfil por SMS;
 - Login;
+- Editar dados de perfil

@@ -3,19 +3,60 @@ import {View, Text, StyleSheet, StatusBar } from 'react-native'
 import {Icon, Avatar, Input} from 'react-native-elements'
 import {carregarImagens} from '../../Utils/Utils'
 import Loading from '../../Componentes/Loading'
+import InputEditavel from '../../Componentes/InputEditavel'
+
 import {SubirImagensBatch, addRegistro, atualizarPerfil, ObterUsuario} from '../../Utils/Acoes'
 
 export default function Perfil(){
 
     const [imagemPerfil, setImagemPerfil] = useState("")
     const [loading, setLoading] = useState(false)
+    const [displayName, setDisplayName] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
+    const [email, setEmail] = useState("")
+    const [editavelNome, setEditavelNome] = useState(false)
+    const [editavelEmail, setEditavelEmail] = useState(false)
+    const [editavelPhone, setEditavelPhone] = useState(false)
 
     const usuario = ObterUsuario()
 
     useEffect(()=>{
         setImagemPerfil(usuario.photoURL)
+
+        const {displayName, phoneNumber,email} = usuario
+
+        setDisplayName(displayName)
+        setPhoneNumber(phoneNumber)
+        setEmail(email)
     }, [])
 
+    const onChangeInput = (input, valor)=>{
+        switch(input){
+            case "displayName":
+                setDisplayName(valor)
+                break
+            case "email":
+                setEmail(valor)
+                break
+            case "phoneNumber":
+                setPhoneNumber(valor)
+                break
+            }
+    }
+
+    const obterValor = (input)=>{
+        switch(input){
+            case "displayName":
+                return displayName
+                break
+            case "email":
+                return email
+                break
+            case "phoneNumber":
+                return phoneNumber
+                break
+            }
+    }
 
     return(
         <View>
@@ -26,6 +67,16 @@ export default function Perfil(){
                 imagemPerfil={imagemPerfil} 
                 setImagemPerfil={setImagemPerfil}
                 setLoading={setLoading}
+            />
+            <FormDados 
+                onChangeInput={onChangeInput}
+                obterValor={obterValor}
+                editavelEmail={editavelEmail}
+                setEditavelEmail={setEditavelEmail}
+                editavelNome={editavelNome}
+                setEditavelNome={setEditavelNome}
+                setEditavelPhone={setEditavelPhone}
+                editavelPhone={editavelPhone}
             />
             <Loading isVisible={loading} />
         </View>
@@ -97,6 +148,50 @@ function HeaderAvatar (props){
                 }}
             />
 
+        </View>
+    )
+}
+
+function FormDados (props){
+    const {
+            onChangeInput,
+            obterValor,
+            editavelEmail,
+            editavelNome,
+            editavelPhone,
+            setEditavelEmail,
+            setEditavelNome,
+            setEditavelPhone
+    } = props
+    return(
+        <View>
+            <InputEditavel
+                id="displayName"
+                label="Nome"
+                obterValor={obterValor}
+                placeholder="Nome"
+                onChangeInput={onChangeInput}
+                editavel={editavelNome}
+                setEditavel={setEditavelNome}
+            />
+            <InputEditavel
+                id="email"
+                label="E-mail"
+                obterValor={obterValor}
+                placeholder="exemplo@exemplo.com"
+                onChangeInput={onChangeInput}
+                editavel={editavelEmail}
+                setEditavel={setEditavelEmail}
+            />
+            <InputEditavel
+                id="phoneNumber"
+                label="Telefone"
+                obterValor={obterValor}
+                placeholder="+55(--)---------"
+                onChangeInput={onChangeInput}
+                editavel={editavelPhone}
+                setEditavel={setEditavelPhone}
+            />
         </View>
     )
 }
