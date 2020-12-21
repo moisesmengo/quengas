@@ -109,12 +109,16 @@ export const addRegistro = async (collec, doc, data) =>{
         statusresponse : false,
     }
 
-    await db.collection(collec).doc(doc).set(data)
+    await db
+    .collection(collec)
+    .doc(doc)
+    .set(data, { merge : true})
         .then(response => {
             resultado.statusresponse = true
         }).catch(err => {
             resultado.error = err
         })
+    return resultado
 }
 
 export const SubirImagensBatch =  async (imagens, rota) =>{
@@ -133,4 +137,13 @@ export const SubirImagensBatch =  async (imagens, rota) =>{
         })
     )
     return imagensUrl
+}
+
+export const atualizarPerfil = async (data) =>{
+    let resposta = false
+    await firebase.auth().currentUser.updateProfile(data)
+        .then((response)=>{
+            resposta = true
+        })
+    return resposta
 }

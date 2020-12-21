@@ -2,14 +2,32 @@ import React, {useState, useEffect, useRef} from 'react'
 import {View, Text, StyleSheet, StatusBar } from 'react-native'
 import {Icon, Avatar, Input} from 'react-native-elements'
 import {carregarImagens} from '../../Utils/Utils'
-import {SubirImagensBatch} from '../../Utils/Acoes'
+import Loading from '../../Componentes/Loading'
+import {SubirImagensBatch, addRegistro, atualizarPerfil, ObterUsuario} from '../../Utils/Acoes'
 
 export default function Perfil(){
+
+    const [imagemPerfil, setImagemPerfil] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    const usuario = ObterUsuario()
+
+    useEffect(()=>{
+        setImagemPerfil(usuario.photoURL)
+    }, [])
+
+
     return(
         <View>
             <StatusBar backgroundColor="#cd090b" />
             <TopoBG /> 
-            <HeaderAvatar />
+            <HeaderAvatar 
+                usuario={usuario} 
+                imagemPerfil={imagemPerfil} 
+                setImagemPerfil={setImagemPerfil}
+                setLoading={setLoading}
+            />
+            <Loading isVisible={loading} />
         </View>
     )
 }
@@ -30,17 +48,40 @@ function TopoBG(){
 
 function HeaderAvatar (props){
 
+    const {usuario, setImagemPerfil, imagemPerfil, setLoading} = props
+    const {uid} = usuario
+
     const trocarFoto = async () =>{
         const resultado = await carregarImagens([1,1])
-        const url = await SubirImagensBatch([resultado.imagem], "Perfil")
-        alert(url)
+        if(resultado.status){
+            setLoading(true)
+            const url = await SubirImagensBatch([resultado.imagem], "Perfil")
+            const update = await atualizarPerfil({
+                photoURL: url[0]
+            })
+            const response = await addRegistro("Usuario", uid, {
+                photoURL: url[0]
+            })
+    
+            if(response.statusresponse){
+                setImagemPerfil(url[0])
+                setLoading(false)
+            }else{
+                setLoading(false)
+                alert("Erro ao enviar foto")
+            }
+        }
+        
     }
 
     return(
         <View style={styles.avatarinline}>
             <Avatar
-                source={require('../../../assets/avatar.png')}
+                source={ imagemPerfil 
+                    ?  {uri: imagemPerfil}
+                    : require('../../../assets/avatar.png')}
                 style={styles.avatar}
+                rounded
                 size="large"
             />
             <Avatar.Accessory {...Icon} onPress={trocarFoto} iconStyle={{fontSize: 20}}
@@ -79,6 +120,6 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         backgroundColor: '#c0c0c0',
-        borderRadius: 50
+        borderRadius: 50,
     }
 })
