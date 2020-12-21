@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarnpkg add expo-notification
+  /usr/bin/node /usr/bin/yarn add radom-uuid-v4
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/expo-notification: Not found
+  Error: https://registry.yarnpkg.com/radom-uuid-v4: Not found
       at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66988:18)
       at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140662:22)
       at Request.emit (events.js:315:20)
@@ -42,9 +42,13 @@ npm manifest:
       "@react-navigation/drawer": "~5.9.0",
       "@react-navigation/native": "~5.1.5",
       "@react-navigation/stack": "~5.2.10",
+      "base-64": "^1.0.0",
       "expo": "~40.0.0",
       "expo-cli": "^4.0.15",
       "expo-firebase-recaptcha": "^1.3.0",
+      "expo-image-picker": "~9.2.0",
+      "expo-media-library": "~10.0.0",
+      "expo-notifications": "~0.8.2",
       "expo-status-bar": "~1.0.3",
       "firebase": "^7.9.0",
       "lodash": "^4.17.20",
@@ -1909,6 +1913,11 @@ Lockfile:
     dependencies:
       "@hapi/hoek" "^9.0.0"
   
+  "@ide/backoff@^1.0.0":
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/@ide/backoff/-/backoff-1.0.0.tgz#466842c25bd4a4833e0642fab41ccff064010176"
+    integrity sha512-F0YfUDjvT+Mtt/R4xdl2X0EYCHMMiJqNLdxHD++jDT5ydEFIyqbCHh51Qx2E211dgZprPKhV7sHmnXKpLuvc5g==
+  
   "@jest/console@^24.9.0":
     version "24.9.0"
     resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -3528,6 +3537,16 @@ Lockfile:
       object-assign "^4.1.1"
       util "0.10.3"
   
+  assert@^2.0.0:
+    version "2.0.0"
+    resolved "https://registry.yarnpkg.com/assert/-/assert-2.0.0.tgz#95fc1c616d48713510680f2eaf2d10dd22e02d32"
+    integrity sha512-se5Cd+js9dXJnu6Ag2JFc00t+HmHOen+8Q+L7O9zI0PqQXr20uk2J0XQqMxZEeo5U50o8Nvmmx7dZrl+Ufr35A==
+    dependencies:
+      es6-object-assign "^1.1.0"
+      is-nan "^1.2.1"
+      object-is "^1.0.1"
+      util "^0.12.0"
+  
   assign-symbols@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
@@ -3741,7 +3760,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
     integrity sha1-MasayLEpNjRj41s+u2n038+6eUc=
   
-  badgin@^1.1.2:
+  badgin@^1.1.2, badgin@^1.1.5:
     version "1.2.2"
     resolved "https://registry.yarnpkg.com/badgin/-/badgin-1.2.2.tgz#cbb0b71b047230c681a68911eb24136f0632adc6"
     integrity sha512-XtoSjNhy2D09qGiLhFWBJmBwBlmleQuwyYyjddWNCJ3gqGRBOBR25VGcd8CAOSghpEUmghB3LD4NpHrUG89zCg==
@@ -3750,6 +3769,11 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
     integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
+  
+  base-64@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/base-64/-/base-64-1.0.0.tgz#09d0f2084e32a3fd08c2475b973788eee6ae8f4a"
+    integrity sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==
   
   base32.js@0.1.0:
     version "0.1.0"
@@ -5852,6 +5876,11 @@ Lockfile:
       is-date-object "^1.0.1"
       is-symbol "^1.0.2"
   
+  es6-object-assign@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/es6-object-assign/-/es6-object-assign-1.1.0.tgz#c2c3582656247c39ea107cb1e6652b6f9f24523c"
+    integrity sha1-wsNYJlYkfDnqEHyx5mUrb58kUjw=
+  
   escalade@^3.0.2, escalade@^3.1.1:
     version "3.1.1"
     resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
@@ -6079,6 +6108,14 @@ Lockfile:
       "@expo/traveling-fastlane-darwin" "1.15.1"
       "@expo/traveling-fastlane-linux" "1.15.1"
   
+  expo-constants@9.3.1:
+    version "9.3.1"
+    resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.3.1.tgz#1cab4896ea5e626fc7f19f49893526c94b481443"
+    integrity sha512-58ENdEeVxZ29INv87IqZf5ZD4+NjvxzrHOCFha8iW3TbTL8GXY/6QjlIZ/yGHu4TwBoatozeJQ+9WCCz/hXM0A==
+    dependencies:
+      fbjs "1.0.0"
+      uuid "^3.3.2"
+  
   expo-constants@~9.3.3:
     version "9.3.5"
     resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.3.5.tgz#78085763e8ed100a5f2df7c682fd99631aa03d5e"
@@ -6122,6 +6159,14 @@ Lockfile:
       fbjs "1.0.0"
       fontfaceobserver "^2.1.0"
   
+  expo-image-picker@~9.2.0:
+    version "9.2.1"
+    resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-9.2.1.tgz#113a46bfc8ef9bf675e8700b1bf7b8472f4de516"
+    integrity sha512-IPrBY7+zgxUUZqjtLVfj+PTKMm6lmI48Z9b8BKJhY/gF49g/cDZwWN0mrg+3G3a3ug5TtIr+pektsNWp1V+T1g==
+    dependencies:
+      expo-permissions "~10.0.0"
+      uuid "7.0.2"
+  
   expo-keep-awake@~8.4.0:
     version "8.4.0"
     resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-8.4.0.tgz#346d0988e6364c46050fef4b7829f302ef3e603d"
@@ -6145,6 +6190,24 @@ Lockfile:
     version "10.0.0"
     resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-10.0.0.tgz#2923411649434f2f079343b163b13c5c9eee8b2d"
     integrity sha512-QLEb0iaBv4/blLxxfKRj2/HPisY+1t+g6MgegqZ1j1U/0qih4dvzUQrxie9ZOZyQB9gnXFCRnZv3QzHEb52dcA==
+  
+  expo-media-library@~10.0.0:
+    version "10.0.0"
+    resolved "https://registry.yarnpkg.com/expo-media-library/-/expo-media-library-10.0.0.tgz#44ab985fa684a9cf5b23d50ac5874b61bfe779c7"
+    integrity sha512-/edgaLU8ClYEgwmiMknpNbkouTNZlL/FNAxcSpPlTmXuRAqd2YmE5BpNOe1demDrR1VWTrZ8/ekS/RwQAWQU2g==
+  
+  expo-notifications@~0.8.2:
+    version "0.8.2"
+    resolved "https://registry.yarnpkg.com/expo-notifications/-/expo-notifications-0.8.2.tgz#69e04a4e48ec6bafaeb354d284fbc23c26f2d62d"
+    integrity sha512-eX/HB96FqXzSMAwtA/fhxB1tGYELQywPm7oBTfnALHH3MFHy1bW7NZYGcU82sDF+DF09uLZ4Fn4p5ValMWA5TA==
+    dependencies:
+      "@ide/backoff" "^1.0.0"
+      abort-controller "^3.0.0"
+      assert "^2.0.0"
+      badgin "^1.1.5"
+      expo-application "~2.4.1"
+      expo-constants "9.3.1"
+      uuid "^3.4.0"
   
   expo-permissions@~10.0.0:
     version "10.0.0"
@@ -7932,6 +7995,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/is-function/-/is-function-1.0.2.tgz#4f097f30abf6efadac9833b17ca5dc03f8144e08"
     integrity sha512-lw7DUp0aWXYg+CBCN+JKkcE0Q2RayZnSvnZBlwgxHBQhqt5pZNVy4Ri7H9GmmXkdu7LUthszM+Tor1u/2iBcpQ==
   
+  is-generator-function@^1.0.7:
+    version "1.0.8"
+    resolved "https://registry.yarnpkg.com/is-generator-function/-/is-generator-function-1.0.8.tgz#dfb5c2b120e02b0a8d9d2c6806cd5621aa922f7b"
+    integrity sha512-2Omr/twNtufVZFr1GhxjOMFPAj2sjc/dKaIqBhvo4qciXfJmITGH6ZGd8eZYNHza8t1y0e01AuqRhJwfWp26WQ==
+  
   is-glob@^2.0.0:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-2.0.1.tgz#d096f926a3ded5600f3fdfd91198cb0888c2d863"
@@ -7969,6 +8037,13 @@ Lockfile:
     version "2.0.2"
     resolved "https://registry.yarnpkg.com/is-map/-/is-map-2.0.2.tgz#00922db8c9bf73e81b7a335827bc2a43f2b91127"
     integrity sha512-cOZFQQozTha1f4MxLFzlgKYPTyj26picdZTx82hbc/Xf4K/tZOOXSCkMvU4pKioRXGDLJRn0GM7Upe7kR721yg==
+  
+  is-nan@^1.2.1:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/is-nan/-/is-nan-1.3.0.tgz#85d1f5482f7051c2019f5673ccebdb06f3b0db03"
+    integrity sha512-z7bbREymOqt2CCaZVly8aC4ML3Xhfi0ekuOnjO2L8vKdl+CttdVoGZQhd4adMFAsxQ5VeRVwORs4tU8RH+HFtQ==
+    dependencies:
+      define-properties "^1.1.3"
   
   is-negative-zero@^2.0.0:
     version "2.0.1"
@@ -13796,6 +13871,18 @@ Lockfile:
     dependencies:
       inherits "2.0.3"
   
+  util@^0.12.0:
+    version "0.12.3"
+    resolved "https://registry.yarnpkg.com/util/-/util-0.12.3.tgz#971bb0292d2cc0c892dab7c6a5d37c2bec707888"
+    integrity sha512-I8XkoQwE+fPQEhy9v012V+TSdH2kp9ts29i20TaaDUXsg7x/onePbhFJUExBfv/2ay1ZOp/Vsm3nDlmnFGSAog==
+    dependencies:
+      inherits "^2.0.3"
+      is-arguments "^1.0.4"
+      is-generator-function "^1.0.7"
+      is-typed-array "^1.1.3"
+      safe-buffer "^5.1.2"
+      which-typed-array "^1.1.2"
+  
   utila@~0.4:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/utila/-/utila-0.4.0.tgz#8a16a05d445657a3aea5eecc5b12a4fa5379772c"
@@ -13815,6 +13902,11 @@ Lockfile:
     version "3.3.2"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
     integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
+  
+  uuid@7.0.2:
+    version "7.0.2"
+    resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
+    integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
   
   uuid@^2.0.1:
     version "2.0.3"

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, YellowBox } from 'react-native';
 import RotasAutenticadas from './src/Navegacoes/RotasAutenticadas'
 import RotasNaoAutenticadas from './src/Navegacoes/RotasNaoAutenticadas'
 import { encerrarSessao, validarSesssao } from './src/Utils/Acoes'
@@ -14,6 +14,8 @@ if(!global.btoa){
 if(!global.atob){
   global.atob = decode
 }
+
+YellowBox.ignoreWarnings(["Animated", "Setting a timer", "YellowBox has been"])
 
 export default function App() {
 

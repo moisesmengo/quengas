@@ -5,6 +5,9 @@ import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import {Plataform} from 'react-native'
 import "firebase/firestore"
+import uuid from 'random-uuid-v4'
+import {map} from 'lodash'
+import {converterImagemBlob} from '../Utils/Utils'
 
 const db = firebase.firestore(firebaseapp)
 
@@ -93,13 +96,13 @@ export const obterToken =  async ()=> {
     }
   
     return token;
-  }
+}
 
-  export const ObterUsuario = () =>{
+export const ObterUsuario = () =>{
       return firebase.auth().currentUser
-  }
+}
 
-  export const addRegistro = async (collec, doc, data) =>{
+export const addRegistro = async (collec, doc, data) =>{
 
     const resultado = {
         error: "",
@@ -112,5 +115,22 @@ export const obterToken =  async ()=> {
         }).catch(err => {
             resultado.error = err
         })
+}
 
-  }
+export const SubirImagensBatch =  async (imagens, rota) =>{
+    const imagensUrl = []
+    await Promise.all(
+        map(imagens, async(imagem)=>{
+            const blob = await converterImagemBlob(imagem)
+            const ref = firebase.storage().ref(rota).child(uuid())
+    
+            await ref.put(blob).then( async(result)=>{
+                await firebase.storage().ref(`${rota}/${result.metadata.name}`)
+                    .getDownloadURL().then((imagemUrl) =>{
+                        imagensUrl.push(imagemUrl)
+                    })
+            })
+        })
+    )
+    return imagensUrl
+}

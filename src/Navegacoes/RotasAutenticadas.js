@@ -73,7 +73,7 @@ function mostrarIcon(route, cor){
     }
 
     return (
-        <Icon type="material-community" name={iconName} size={24} color={cor}/>
+        <Icon type="material-community" name={iconName} size={24} color={cor="#e8e3d4"}/>
     )
 }
 
