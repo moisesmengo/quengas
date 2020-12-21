@@ -1,14 +1,22 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {View, Text, StyleSheet, StatusBar } from 'react-native'
 import {Icon, Avatar, Input} from 'react-native-elements'
-import {carregarImagens} from '../../Utils/Utils'
+import {carregarImagens, validarEmail} from '../../Utils/Utils'
 import Loading from '../../Componentes/Loading'
 import InputEditavel from '../../Componentes/InputEditavel'
 import Modal from '../../Componentes/Modal'
 import CodeInput from 'react-native-code-input'
 import FirebaseRecapcha from '../../Utils/FirebaseRecapcha'
 
-import {SubirImagensBatch, addRegistro, atualizarPerfil, ObterUsuario, confirmarCodigo} from '../../Utils/Acoes'
+import {
+        SubirImagensBatch, 
+        addRegistro, 
+        atualizarPerfil,
+        ObterUsuario, 
+        confirmar,      
+        Reautenticar,
+        atualizarEmailFirebase
+    } from '../../Utils/Acoes'
 import { cos } from 'react-native-reanimated'
 
 export default function Perfil(){
@@ -23,7 +31,9 @@ export default function Perfil(){
     const [editavelPhone, setEditavelPhone] = useState(false)
 
     const [verificationId, setVerificationId] = useState("")
-    const [isVisible, setIsVisible] = useState(true)
+    const [isVisible, setIsVisible] = useState(false)
+
+    const recapcha = useRef()
 
     const usuario = ObterUsuario()
 
@@ -73,14 +83,45 @@ export default function Perfil(){
                 console.log(usuario)
                 break
             case "email":
+                if(valor !== usuario.email){
+                    if(validarEmail(valor)){
+                        const verification = await confirmar(phoneNumber, recapcha)
+                        if(verification){
+                            setVerificationId(verification)
+                            setIsVisible(true)
+                        }else{
+                            alert("Ocorreu um erro na verificação")
+                            setEmail(usuario.email)
+                        }
+                    }
+                    
+                }
                 break
             case "phoneNumber":
+                addRegistro("Usuario", usuario.uid, {phoneNumber: valor})
                 break
             }
     }
 
-    const confirmarCodigo = async ()=>{
-        console.log("confirmar codigo")
+    const confirmarCodigo = async (verificationid, code)=>{
+        setLoading(true)
+        const resultado = await Reautenticar(verificationid, code)
+
+        if(resultado.statusresponse){
+            const emailresponse = await atualizarEmailFirebase(email)
+            const updateregistro = await addRegistro(
+                "Usuario", 
+                usuario.uid, 
+                {email: email})
+            
+            console.log(emailresponse)
+            console.log(updateregistro)
+            
+            setLoading(false)
+            setIsVisible(false)
+        }else{
+            alert("Ocorreu um erro ao atualizar o E-mail")
+        }
     }
 
     return(
@@ -111,6 +152,8 @@ export default function Perfil(){
                 verificationid = {verificationId}
                 confirmarCodigo={confirmarCodigo}
             />
+
+            <FirebaseRecapcha referencia={recapcha} />
             <Loading isVisible={loading} />
         </View>
     )
@@ -124,7 +167,9 @@ function TopoBG(){
                     style={{
                         color: '#e8e3d4', fontSize: 18, fontWeight: 'bold'
                     }}
-                >Nome</Text>
+                >
+                   Meus Dados
+                </Text>
             </View>
         </View>
     )
@@ -252,6 +297,11 @@ function ModalVerification(props){
                     containerStyle={{marginTop: 30}}
                     codeInputStyle={{borderWidth: 1.5}}
                     codeLength={6}
+                    onFulfill ={
+                        (code) =>{
+                            confirmarCodigo(verificationid, code)
+                        }
+                    }
                 />
             </View>
         </Modal>

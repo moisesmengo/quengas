@@ -150,10 +150,24 @@ export const atualizarPerfil = async (data) =>{
 
 export const Reautenticar = async(verificationId, codigo)=>{
     let response = {statusresponse: false}
-    const credenciais = new Firebase.aut.PhoneAuthProvider.credenciais(verificationId, codigo)
+    const credenciais = new firebase.auth.PhoneAuthProvider.credential(verificationId, codigo)
 
     await firebase.auth().currentUser.reauthenticateWithCredential(credenciais)
         .then(resultado => response.statusresponse = true)
+        .catch(err=>{
+            console.log(err)
+        })
+
+        return response
+}
+
+export const atualizarEmailFirebase = async (email) =>{
+    let response= {statusresponse: false, }
+
+    await firebase.auth().currentUser.updateEmail(email)
+        .then(resposta =>{
+            response.statusresponse = true
+        }).catch(err => response.statusresponse = false)
 
         return response
 }
