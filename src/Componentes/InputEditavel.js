@@ -4,7 +4,16 @@ import {Icon} from 'react-native-elements'
 
 export default function InputEditavel(props) {
 
-    const {label, placeholder, onChangeInput, obterValor, id, editavel, setEditavel} = props
+    const {
+        label, 
+        placeholder, 
+        onChangeInput, 
+        obterValor, 
+        id, 
+        editavel, 
+        setEditavel,
+        atualizarValor
+    } = props
 
     const editar = ()=>{
         setEditavel(!editavel)
@@ -28,7 +37,10 @@ export default function InputEditavel(props) {
                         name="content-save" 
                         type="material-community" 
                         size={24} 
-                        onPress={editar} 
+                        onPress={()=>{
+                            atualizarValor(id, obterValor(id))
+                            editar()
+                        }} 
                         style={styles.icon}
                     />) :  ( <Icon 
                         name="pencil" 

@@ -4,8 +4,10 @@ import {Icon, Avatar, Input} from 'react-native-elements'
 import {carregarImagens} from '../../Utils/Utils'
 import Loading from '../../Componentes/Loading'
 import InputEditavel from '../../Componentes/InputEditavel'
+import Modal from '../../Componentes/Modal'
 
 import {SubirImagensBatch, addRegistro, atualizarPerfil, ObterUsuario} from '../../Utils/Acoes'
+import { cos } from 'react-native-reanimated'
 
 export default function Perfil(){
 
@@ -58,6 +60,20 @@ export default function Perfil(){
             }
     }
 
+    const atualizarValor = async (input, valor) =>{
+        switch(input){
+            case "displayName":
+                console.log(await atualizarPerfil({displayName: valor}))
+                addRegistro("Usuario", usuario.uid, {displayName: valor})
+                console.log(usuario)
+                break
+            case "email":
+                break
+            case "phoneNumber":
+                break
+            }
+    }
+
     return(
         <View>
             <StatusBar backgroundColor="#cd090b" />
@@ -77,6 +93,7 @@ export default function Perfil(){
                 setEditavelNome={setEditavelNome}
                 setEditavelPhone={setEditavelPhone}
                 editavelPhone={editavelPhone}
+                atualizarValor={atualizarValor}
             />
             <Loading isVisible={loading} />
         </View>
@@ -161,7 +178,8 @@ function FormDados (props){
             editavelPhone,
             setEditavelEmail,
             setEditavelNome,
-            setEditavelPhone
+            setEditavelPhone,
+            atualizarValor
     } = props
     return(
         <View>
@@ -173,6 +191,7 @@ function FormDados (props){
                 onChangeInput={onChangeInput}
                 editavel={editavelNome}
                 setEditavel={setEditavelNome}
+                atualizarValor={atualizarValor}
             />
             <InputEditavel
                 id="email"
@@ -182,6 +201,7 @@ function FormDados (props){
                 onChangeInput={onChangeInput}
                 editavel={editavelEmail}
                 setEditavel={setEditavelEmail}
+                atualizarValor={atualizarValor}
             />
             <InputEditavel
                 id="phoneNumber"
@@ -191,6 +211,7 @@ function FormDados (props){
                 onChangeInput={onChangeInput}
                 editavel={editavelPhone}
                 setEditavel={setEditavelPhone}
+                atualizarValor={atualizarValor}
             />
         </View>
     )
