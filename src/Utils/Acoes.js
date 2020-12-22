@@ -171,3 +171,20 @@ export const atualizarEmailFirebase = async (email) =>{
 
         return response
 }
+
+export const addAnuncioFirebase = async (coletion, data) =>{
+    const resultado = {
+        error: "",
+        statusresponse : false,
+    }
+
+    await db
+    .collection(coletion)
+    .add(data)
+        .then(response => {
+            resultado.statusresponse = true
+        }).catch(err => {
+            resultado.error = err
+        })
+    return resultado
+}

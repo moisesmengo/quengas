@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import Loading from '../../Componentes/Loading'
 import {carregarImagens} from '../../Utils/Utils'
+import {SubirImagensBatch, addRegistro, addAnuncioFirebase, ObterUsuario} from '../../Utils/Acoes'
 
 
 export default function AddAnuncio(){
@@ -17,9 +18,65 @@ export default function AddAnuncio(){
     const [categoria, setCategoria] = useState("")
     const [errors, setErros] = useState(5)
     const [rating, setRating] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const btnref = useRef()
     const navigation = useNavigation()
+
+    const addAnuncio = async () =>{
+        setErros({})
+        if(isEmpty(titulo)){
+            setErros({titulo: "O campo de título é obrigatório"})
+        }else if (isEmpty(description)){
+            setErros({description: "O campo de descrição é obrigatório"})
+        }else if (!parseFloat(preco) > 0){
+            setErros({preco: "O anúncio deve ter um preço"})
+        }else if (isEmpty(categoria)){
+            Alert.alert("Selecionar Categoria","Por favor selecione uma categoria para o anúncio", [
+                {style: "cancel", text: 'Entendi'}
+            ])
+        }else if (isEmpty(imagens)){
+            Alert.alert("Selecionar Imagens","Por favor selecione uma imagem para o anúncio", [
+                {style: "cancel", text: 'Entendi'}
+            ])
+        }else{
+            setLoading(true)
+            const urlImagens = await SubirImagensBatch(imagens, "ImagensAnuncios")
+            const anuncio = {
+                titulo,
+                description,
+                preco,
+                usuario: ObterUsuario().uid,
+                imagens: urlImagens,
+                status:1,
+                datacriacao : new Date(),
+                categoria,
+            }
+
+            const registrarAnuncio = await addAnuncioFirebase("Anuncios", anuncio)
+
+            if(registrarAnuncio.statusresponse){
+                setLoading(false)
+                Alert.alert("Anúncio registrado", 
+                "O anúncio foi registrado corretamente",
+                [{
+                    style: 'cancel',
+                    text: 'Aceitar',
+                    onPress: () => navigation.navigate("meus-anuncios")
+                }]
+                )
+            } else {
+                setLoading(false)
+                Alert.alert("Falha no registro", 
+                "Ocorreu um erro ao registrar o anúncio",
+                [{
+                    style: 'cancel',
+                    text: 'Aceitar',
+                }]
+                )
+            }
+        }
+    }
 
     return(
         <KeyboardAwareScrollView style={styles.container}>
@@ -66,12 +123,16 @@ export default function AddAnuncio(){
                 <Text style={styles.textlabel}>Adcionar imagens</Text>
                 <SubirImagens imagens={imagens} setImagens={setImagens} />
                 <Text style={styles.textlabel}>Adcionar categoria</Text>
+                <ListaCat categoria={categoria} setCategoria={setCategoria} />
             </View>
             <Button 
                 title="Adcionar novo anúncio"
                 buttonStyle={styles.button}
                 ref={btnref}
+                onPress={addAnuncio}
             />
+
+            <Loading isVisible={Loading} />
 
         </KeyboardAwareScrollView>
     )
@@ -125,6 +186,77 @@ function SubirImagens(props){
     )
 }
 
+function ListaCat (props){
+    const {categoria, setCategoria} = props
+    return(
+        <View style={styles.botoes}>
+            <TouchableOpacity
+                style={styles.btncategoria}
+                onPress={()=>{
+                    setCategoria('loiras')
+                }}
+            >
+                <Icon  
+                    type="material-community"
+                    size={24}
+                    name="face"
+                    color={categoria === 'loiras' ? "#cd090b" : "#ce615e"}
+                    reverse
+                />
+                <Text>Loiras</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.btncategoria}
+                onPress={()=>{
+                    setCategoria('morenas')
+                }}
+            >
+                <Icon  
+                    type="material-community"
+                    size={24}
+                    name="face"
+                    color={categoria === 'morenas' ? "#cd090b" : "#ce615e"}
+                    reverse
+                />
+                <Text>Morenas</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.btncategoria}
+                onPress={()=>{
+                    setCategoria('traveco')
+                }}
+            >
+                <Icon  
+                    type="material-community"
+                    size={24}
+                    name="face"
+                    color={categoria === 'traveco' ? "#cd090b" : "#ce615e"}
+                    reverse
+                />
+                <Text>Travestis</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.btncategoria}
+                onPress={()=>{
+                    setCategoria('outras')
+                }}
+            >
+                <Icon  
+                    type="material-community"
+                    size={24}
+                    name="face"
+                    color={categoria === 'outras' ? "#cd090b" : "#ce615e"}
+                    reverse
+                />
+                <Text>Outras</Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
 const styles = StyleSheet.create({
     container:{
         flex: 1,
@@ -154,7 +286,7 @@ const styles = StyleSheet.create({
     },
     button:{
         backgroundColor: '#5c2a2d',
-        marginTop: 10,
+        marginTop: 20,
         marginBottom: 40,
         marginHorizontal: 20
     },
@@ -177,5 +309,14 @@ const styles = StyleSheet.create({
         width: 100,
         height: 150,
         marginRight: 10
+    },
+    botoes:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    btncategoria:{
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
