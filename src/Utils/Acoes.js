@@ -188,3 +188,20 @@ export const addAnuncioFirebase = async (coletion, data) =>{
         })
     return resultado
 }
+
+export const ListarMeusAnuncios = async () =>{
+    let anuncios = []
+
+    await db.collection("Anuncios").where("usuario", "==", ObterUsuario().uid)
+        .get().then(response => {
+            response.forEach((doc)=>{
+                const anuncio = doc.data()
+                anuncio.id = doc.uid
+                anuncios.push(anuncio)
+            })
+        }).catch(err => {
+            console.log(err)
+        })
+
+    return anuncios
+}

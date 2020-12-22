@@ -18,10 +18,12 @@ aplicativo ou pelo whatsapp.
 
 ### Serviços
 
-- Registro de prostituta (por email, facebook ou google);
+- Registro de prostitutas;
 - Validação de e-mail;
 - Validação de senhas;
 - Recapcha de verificação;
 - Confirmação de perfil por SMS;
 - Login;
 - Editar dados de perfil
+- Registrar anúncios no firebase
+- Listar anúncios de uma prostituta específica

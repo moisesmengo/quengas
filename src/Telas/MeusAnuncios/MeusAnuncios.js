@@ -2,9 +2,18 @@ import React, {useCallback, useState, useEffect} from 'react'
 import {View, Text, StyleSheet, FlatList, Image } from 'react-native'
 import {Icon} from 'react-native-elements'
 import {useNavigation} from '@react-navigation/native'
+import {ListarMeusAnuncios} from '../../Utils/Acoes'
 
 export default function MeusAnuncios(){
     const navigation = useNavigation()
+
+    useEffect(()=>{
+        (
+            async () =>{
+                console.log(await ListarMeusAnuncios())
+            }
+        )()
+    },[])
 
     return(
         <View style={{flex:1, justifyContent: 'center'}}>
