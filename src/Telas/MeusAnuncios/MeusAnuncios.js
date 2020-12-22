@@ -6,18 +6,53 @@ import {ListarMeusAnuncios} from '../../Utils/Acoes'
 
 export default function MeusAnuncios(){
     const navigation = useNavigation()
+    const [anuncios, setAnuncios] = useState({})
 
     useEffect(()=>{
         (
             async () =>{
-                console.log(await ListarMeusAnuncios())
+                setAnuncios(await ListarMeusAnuncios())
             }
         )()
     },[])
 
     return(
         <View style={{flex:1, justifyContent: 'center'}}>
-            <Text>Tela de meus anuncios</Text>
+
+            {
+                anuncios.length > 0 ? (
+                    <FlatList 
+                        data = {anuncios}
+                        renderItem={(item)=>(
+                            <Anuncio 
+                                anuncios = {item}
+                                setAnuncios={setAnuncios}
+                                navigation={navigation}
+                            />
+                        )}
+                    />
+                ) : (
+                    <View style={{alignSelf: 'center'}}>
+                        <View style={{
+                            width: 120,
+                            height: 120,
+                            borderColor: '#ce615e',
+                            borderWidth: 1,
+                            borderRadius: 60,
+                            alignSelf: 'center'
+                        }}>
+                        <Icon 
+                            type="material-community"
+                            size={100}
+                            color= "#cd090b"
+                            name="cart-plus"
+                            style={{margin: 10}}
+                        />
+                        </View>
+                    </View>
+                )
+            }
+
             <Icon 
                 name="plus"
                 type="material-community"
@@ -32,6 +67,64 @@ export default function MeusAnuncios(){
     )
 }
 
+const Anuncio = (props) =>{
+    const {anuncios, setAnuncios, navigation} = props
+    const {description, preco, id, imagens, titulo} = anuncios.item
+
+    return(
+        <View style={styles.container}>
+            <Image 
+                source={{uri : imagens[0]}}
+                style={{width: 150, height: 150, borderRadius:10, marginLeft:10}}
+                resizeMethod="resize"
+            />
+            <View style={styles.viewmeio}>
+                <Text style={styles.titulo}>{titulo}</Text>
+                <Text style={styles.descrip}>
+                    {description.length > 20 ? description.substring(0,20) : description}...
+                </Text>
+                <Text style={styles.preco}>R$ {parseFloat(preco).toFixed(2)}</Text>
+
+                <View  style={styles.iconbar}>
+                    <View style={styles.icon}>
+                        <Icon 
+                            style={styles.icon}
+                            type="material-community"
+                            name="check-outline"
+                            color="#25d366"
+                            onPress={()=>{
+                                console.log("dar de alta")
+                            }}
+                        />
+                    </View>
+                    <View style={styles.iconedit}>
+                        <Icon 
+                            style={styles.iconedit}
+                            type="material-community"
+                            name="pencil-outline"
+                            color="#ffa000"
+                            onPress={()=>{
+                                console.log("editar")
+                            }}
+                        />
+                    </View>
+                    <View style={styles.icondelet}>
+                        <Icon 
+                            style={styles.icondelet}
+                            type="material-community"
+                            name="trash-can-outline"
+                            color="#d32f2f"
+                            onPress={()=>{
+                                console.log("eliminar")
+                            }}
+                        />
+                    </View>
+                </View>
+            </View>
+        </View>
+    )
+}
+
 const styles = StyleSheet.create({
     btncontainer:{
         position: 'absolute',
@@ -40,5 +133,61 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset:{width: 2, height: 2},
         shadowOpacity: 0.2
+    },
+    container:{
+        flexDirection: 'row',
+        flex: 1,
+        paddingVertical: 10,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#cd090b',
+        shadowColor: '#cd090b',
+        shadowOffset: {height: 10},
+        shadowOpacity: 0.9
+    },
+    viewmeio:{
+        flex: 1,
+        marginRight: 10,
+        justifyContent:"center",
+        alignItems: 'center'
+    },
+    titulo:{
+        marginTop: 10,
+        fontSize: 18,
+        fontWeight: '700',
+        textAlign: "center",
+        color: '#0b070b'
+    },
+    descrip:{
+        fontSize: 16,
+        color: '#a7837d'
+    },
+    preco:{
+        fontSize: 16,
+        color: '#5c2a2d'
+    },
+    iconbar:{
+        marginTop: 20,
+        flexDirection: 'row'
+    },
+    icon:{
+        borderWidth: 1,
+        borderColor: '#25d366',
+        padding: 5,
+        borderRadius: 60,
+        marginLeft: 20
+    },
+    iconedit:{
+        borderWidth: 1,
+        borderColor: '#ffa000',
+        padding: 5,
+        borderRadius: 50,
+        marginLeft: 20
+    },
+    icondelet:{
+        borderWidth: 1,
+        borderColor: '#d32f2f',
+        padding: 5,
+        borderRadius: 50,
+        marginLeft: 20
     }
 })
