@@ -2,7 +2,6 @@ import React from 'react'
 import {createStackNavigator} from '@react-navigation/stack'
 
 import Anuncio from '../Telas/Anuncio/Anuncios'
-import AddAnuncio from '../Telas/Anuncio/AddAnuncio'
 import Contato from '../Telas/Anuncio/Contato'
 import Detalhe from '../Telas/Anuncio/Detalhe'
 import MensagensLista from '../Telas/Anuncio/MensagensLista'
@@ -16,16 +15,6 @@ export default function AnuncioStack(){
         component = {Anuncio} 
         name = "anuncio" 
         options = {{headerShown: false}}
-      />
-
-      <Stack.Screen
-        component = {AddAnuncio} 
-        name = "add-anuncio" 
-        options = {{
-          title: "Adcionar novo anúncio", 
-          headerStyle: {backgroundColor: "#cd090b"},
-          headerTintColor: {backgroundColor: "#e8e3d4"},
-        }}
       />
 
       <Stack.Screen

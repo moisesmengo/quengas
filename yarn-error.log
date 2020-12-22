@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn add radom-uuid-v4
+  /usr/bin/node /usr/bin/yarn add react-nativr-keyboard-aware-scroll-view
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/radom-uuid-v4: Not found
+  Error: https://registry.yarnpkg.com/react-nativr-keyboard-aware-scroll-view: Not found
       at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66988:18)
       at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:140662:22)
       at Request.emit (events.js:315:20)
@@ -50,8 +50,9 @@ npm manifest:
       "expo-media-library": "~10.0.0",
       "expo-notifications": "~0.8.2",
       "expo-status-bar": "~1.0.3",
-      "firebase": "^7.9.0",
+      "firebase": "^7.24.0",
       "lodash": "^4.17.20",
+      "random-uuid-v4": "0.0.9",
       "react": "16.13.1",
       "react-dom": "16.13.1",
       "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
@@ -6696,7 +6697,7 @@ Lockfile:
     dependencies:
       micromatch "^4.0.2"
   
-  firebase@^7.9.0:
+  firebase@^7.24.0:
     version "7.24.0"
     resolved "https://registry.yarnpkg.com/firebase/-/firebase-7.24.0.tgz#dab53b9c0f1c9538d2d6f4f51769897b0b6d60d8"
     integrity sha512-j6jIyGFFBlwWAmrlUg9HyQ/x+YpsPkc/TTkbTyeLwwAJrpAmmEHNPT6O9xtAnMV4g7d3RqLL/u9//aZlbY4rQA==
@@ -11503,6 +11504,11 @@ Lockfile:
     version "5.1.1"
     resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
     integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
+  
+  random-uuid-v4@0.0.9:
+    version "0.0.9"
+    resolved "https://registry.yarnpkg.com/random-uuid-v4/-/random-uuid-v4-0.0.9.tgz#b46f035f83ef815d78637411bb3203e75fa3b401"
+    integrity sha512-6kF9H9mDFECO0WtLFf6MRFHeR8KnocTvp+yea27pvBZK4PAM2w7/id2Eol9/RqqYnYEjB0QMDRBeN0Vsn/pxtA==
   
   randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
     version "2.1.0"

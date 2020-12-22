@@ -3,6 +3,8 @@ import {createStackNavigator} from '@react-navigation/stack'
 
 import  MeusAnuncios from '../Telas/MeusAnuncios/MeusAnuncios'
 import  EditarAnuncio from '../Telas/MeusAnuncios/EditarAnuncio'
+import AddAnuncio from '../Telas/MeusAnuncios/AddAnuncio'
+
 
 const Stack = new createStackNavigator()
 
@@ -18,6 +20,16 @@ export default function MinhaContaStack(){
                 options ={{
                     title: "Meus Anúncios",
 
+                }}
+            />
+
+            <Stack.Screen
+                component = {AddAnuncio} 
+                name = "add-anuncio" 
+                options = {{
+                title: "Adcionar novo anúncio", 
+                headerStyle: {backgroundColor: "#cd090b"},
+                headerTintColor: {backgroundColor: "#e8e3d4"},
                 }}
             />
             <Stack.Screen
