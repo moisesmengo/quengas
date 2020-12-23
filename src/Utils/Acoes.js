@@ -208,6 +208,20 @@ export const ListarMeusAnuncios = async () =>{
     return anuncios
 }
 
+export const atualizarRegistro = async(cole, doc, data)=>{
+
+    let response = {statusresponse: false}
+
+    await db
+            .collection(cole)
+            .doc(doc)
+            .update(data)
+            .then(result => response.statusresponse = true)
+            .catch(err => console.log(err))
+
+    return response
+}
+
 export const eliminarAnuncio = async(cole, doc)=>{
 
     let response = {statusresponse: false}
@@ -220,4 +234,19 @@ export const eliminarAnuncio = async(cole, doc)=>{
             .catch(err => console.log(err))
 
     return response
+}
+
+export const obterRegistroID = async (col, doc) =>{
+    let response = {statusresponse : false, data: null}
+
+    await db.collection(col).doc(doc).get()
+        .then(result => {
+            const anuncio = result.data()
+            anuncio.id = result.id
+
+            response.data = anuncio
+            response.statusresponse=true
+        }).catch(err => console.log(err))
+    
+        return response
 }
