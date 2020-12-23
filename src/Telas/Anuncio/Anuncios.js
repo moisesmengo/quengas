@@ -28,8 +28,12 @@ export default function Anuncios(){
         const listarAnunciosFiltro = await ListarAnunciosPorCategoria(categoria)
         setAnuncioList(listarAnunciosFiltro)
         if(listarAnunciosFiltro.length === 0){
-            setMensagens("Não foi encontrado nenhum dado para a categoria! " + categoria)
+            setMensagens("Não foi encontrado nenhum dado para a categoria " + categoria)
         }
+    }
+
+    const atualizarAnuncios = async () =>{
+        setAnuncioList(await ListarAnuncios())
     }
 
     return(
@@ -69,6 +73,25 @@ export default function Anuncios(){
             <View style={styles.categoria}>
                 <View style={styles.titulocategoria}>
                     <Text style={styles.textcategoria}> - CATEGORIAS - </Text>
+                    {
+                        categoria.length > 0 && (
+                            <TouchableOpacity
+                                onPress={ () =>{
+                                    setCategoria("")
+                                    atualizarAnuncios()
+                                }                                    
+                                }
+                            >
+                                <Icon 
+                                    type="material-community"
+                                    color="#5c2a2d"
+                                    name="close"
+                                    reverse
+                                    size={10}
+                                />
+                            </TouchableOpacity>
+                        )
+                    }
                 </View>
                 <View style={styles.catlist}>
                     <BotaoCategoria 

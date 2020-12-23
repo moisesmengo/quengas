@@ -24,8 +24,9 @@ aplicativo ou pelo whatsapp.
 - Recapcha de verificação;
 - Confirmação de perfil por SMS;
 - Login;
-- Editar dados de perfil
-- Registrar anúncios no firebase
-- Listar anúncios de uma prostituta específica
-- Editar anúncios de uma prostituta específica
-- Listar anúncios
+- Editar dados de perfil;
+- Registrar anúncios no firebase;
+- Listar anúncios de uma prostituta específica;
+- Editar anúncios de uma prostituta específica;
+- Listar anúncios;
+- Filtrar anúncio por categoria
