@@ -5,7 +5,7 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {size} from 'lodash'
 import Busca from '../../Componentes/Busca'
-import {ListarAnuncios, ObterUsuario} from '../../Utils/Acoes'
+import {ListarAnuncios, ObterUsuario, ListarAnunciosPorCategoria} from '../../Utils/Acoes'
 
 export default function Anuncios(){
 
@@ -23,6 +23,14 @@ export default function Anuncios(){
             setAnuncioList(await ListarAnuncios())
         })()
     }, [])
+
+    const carregarFiltroPorCategoria = async (categoria) =>{
+        const listarAnunciosFiltro = await ListarAnunciosPorCategoria(categoria)
+        setAnuncioList(listarAnunciosFiltro)
+        if(listarAnunciosFiltro.length === 0){
+            setMensagens("Não foi encontrado nenhum dado para a categoria! " + categoria)
+        }
+    }
 
     return(
         <View style={styles.frame}>
@@ -69,6 +77,7 @@ export default function Anuncios(){
                         icon="face"
                         texto="Loiras"
                         setCategoria={setCategoria}
+                        carregarFiltroPorCategoria={carregarFiltroPorCategoria}
                     />
                     <BotaoCategoria 
                         categoriabotao="morenas"
@@ -76,6 +85,7 @@ export default function Anuncios(){
                         icon="face"
                         texto="Morenas"
                         setCategoria={setCategoria}
+                        carregarFiltroPorCategoria={carregarFiltroPorCategoria}
                     />
                     <BotaoCategoria 
                         categoriabotao="travestis"
@@ -83,6 +93,7 @@ export default function Anuncios(){
                         icon="face"
                         texto="Travestís"
                         setCategoria={setCategoria}
+                        carregarFiltroPorCategoria={carregarFiltroPorCategoria}
                     />
                     <BotaoCategoria 
                         categoriabotao="outras"
@@ -90,6 +101,7 @@ export default function Anuncios(){
                         icon="face"
                         texto="Outras"
                         setCategoria={setCategoria}
+                        carregarFiltroPorCategoria={carregarFiltroPorCategoria}
                     />
                 </View>
             </View>
@@ -155,13 +167,14 @@ function Anuncio(props){
 }
 
 function BotaoCategoria(props){
-    const {categoriabotao, categoria, icon, texto, setCategoria} = props
+    const {categoriabotao, categoria, icon, texto, setCategoria, carregarFiltroPorCategoria} = props
 
     return(
         <TouchableOpacity
             style={categoria===categoriabotao ? styles.categoriahover : styles.categoriabtn}
             onPress={()=>{
                 setCategoria(categoriabotao)
+                carregarFiltroPorCategoria(categoriabotao)
             }}
         >
             <Icon 

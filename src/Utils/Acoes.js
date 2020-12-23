@@ -275,3 +275,29 @@ export const ListarAnuncios = async () =>{
         return anunciosList
 
 }
+
+export const ListarAnunciosPorCategoria = async (categoria) =>{
+    const anunciosList = [] 
+    let index = 0
+
+    await db.collection("Anuncios")
+        .where("status", "==", 1)
+        .where("categoria", "==", categoria)
+        .get()
+        .then(response =>{
+            response.forEach((doc)=>{
+                const anuncio = doc.data()
+                anuncio.id = doc.id
+                anunciosList.push(anuncio)
+            })
+        }).catch(err => console.log(err))
+
+        for(const registro of anunciosList ){
+            const usuario = await obterRegistroID("Usuario", registro.usuario)
+            anunciosList[index].usuario = usuario.data
+            index++
+        }
+
+        return anunciosList
+
+}
