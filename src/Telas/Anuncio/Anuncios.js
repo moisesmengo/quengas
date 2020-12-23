@@ -5,7 +5,7 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {size} from 'lodash'
 import Busca from '../../Componentes/Busca'
-import {ListarAnuncios, ObterUsuario, ListarAnunciosPorCategoria} from '../../Utils/Acoes'
+import {ListarAnuncios, ObterUsuario, ListarAnunciosPorCategoria, Buscar} from '../../Utils/Acoes'
 
 export default function Anuncios(){
 
@@ -21,6 +21,7 @@ export default function Anuncios(){
     useEffect(()=>{
         (async () =>{
             setAnuncioList(await ListarAnuncios())
+            console.log(await Buscar("loi"))
         })()
     }, [])
 
@@ -67,7 +68,13 @@ export default function Anuncios(){
                             />
                         </View>
                     </View>
-                    <Busca />
+                    <Busca 
+                        setAnuncioList={setAnuncioList}
+                        atualizarAnuncios={atualizarAnuncios}
+                        setSearch={setSearch}
+                        search={search}
+                        setMensagens={setMensagens}
+                    />
                 </KeyboardAwareScrollView>
             </View>
             <View style={styles.categoria}>

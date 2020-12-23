@@ -8,8 +8,10 @@ import "firebase/firestore"
 import uuid from 'random-uuid-v4'
 import {map} from 'lodash'
 import {converterImagemBlob} from '../Utils/Utils'
+import {FireSQL} from 'firesql'
 
 const db = firebase.firestore(firebaseapp)
+const fireSQL = new FireSQL(firebase.firestore(), {includeId: 'id'})
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -300,4 +302,15 @@ export const ListarAnunciosPorCategoria = async (categoria) =>{
 
         return anunciosList
 
+}
+
+export const Buscar = async (search) =>{
+    let anuncios = []
+
+    await fireSQL.query(`select * from Anuncios where titulo like '${search}%'`)
+        .then(response => {
+            anuncios = response
+        })
+
+    return anuncios
 }
