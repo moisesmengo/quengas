@@ -253,6 +253,7 @@ export const obterRegistroID = async (col, doc) =>{
 
 export const ListarAnuncios = async () =>{
     const anunciosList = [] 
+    let index = 0
 
     await db.collection("Anuncios")
         .where("status", "==", 1)
@@ -265,5 +266,12 @@ export const ListarAnuncios = async () =>{
             })
         }).catch(err => console.log(err))
 
-    return anunciosList
+        for(const registro of anunciosList ){
+            const usuario = await obterRegistroID("Usuario", registro.usuario)
+            anunciosList[index].usuario = usuario.data
+            index++
+        }
+
+        return anunciosList
+
 }
