@@ -27,3 +27,5 @@ aplicativo ou pelo whatsapp.
 - Editar dados de perfil
 - Registrar anúncios no firebase
 - Listar anúncios de uma prostituta específica
+- Editar anúncios de uma prostituta específica
+- Listar anúncios

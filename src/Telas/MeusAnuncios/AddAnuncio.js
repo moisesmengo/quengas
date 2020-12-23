@@ -109,16 +109,6 @@ export default function AddAnuncio(){
                 errorMessage={errors.preco}
                 keyboardType='numbers-and-punctuation'
             />
-
-            <Text style={styles.textlabel}>Qualidade do serviço</Text>
-            <AirbnbRating count={5}
-                reviews={["Péssimo", "Ruim", "Normal", "Bom", "Excelente"]}
-                defaultRating={5}
-                size={35}
-                onFinishRating={(value) => {
-                    setRating(value)
-                }}
-            />
             <View>
                 <Text style={styles.textlabel}>Adcionar imagens</Text>
                 <SubirImagens imagens={imagens} setImagens={setImagens} />

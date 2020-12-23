@@ -12,8 +12,9 @@ export default function Anuncios(){
     const navigation = useNavigation()
     const [anuncioList, setAnuncioList] = useState([])
     const [search, setSearch] = useState("")
-    const [setMensagens, setSetMensagens] = useState("Carregando...")
+    const [mensagem, setMensagens] = useState("Carregando...")
     const [notificacoes, setNotificacoes] = useState(0)
+    const [categoria, setCategoria] = useState("")
 
     const {photoURL} = ObterUsuario()
 
@@ -57,6 +58,42 @@ export default function Anuncios(){
                     <Busca />
                 </KeyboardAwareScrollView>
             </View>
+            <View style={styles.categoria}>
+                <View style={styles.titulocategoria}>
+                    <Text style={styles.textcategoria}> - CATEGORIAS - </Text>
+                </View>
+                <View style={styles.catlist}>
+                    <BotaoCategoria 
+                        categoriabotao="loiras"
+                        categoria={categoria}
+                        icon="face"
+                        texto="Loiras"
+                        setCategoria={setCategoria}
+                    />
+                    <BotaoCategoria 
+                        categoriabotao="morenas"
+                        categoria={categoria}
+                        icon="face"
+                        texto="Morenas"
+                        setCategoria={setCategoria}
+                    />
+                    <BotaoCategoria 
+                        categoriabotao="travestis"
+                        categoria={categoria}
+                        icon="face"
+                        texto="Travestís"
+                        setCategoria={setCategoria}
+                    />
+                    <BotaoCategoria 
+                        categoriabotao="outras"
+                        categoria={categoria}
+                        icon="face"
+                        texto="Outras"
+                        setCategoria={setCategoria}
+                    />
+                </View>
+            </View>
+
             {size(anuncioList) > 0 ? (
                 <FlatList 
                     data={anuncioList}
@@ -70,7 +107,7 @@ export default function Anuncios(){
                     }}
                 />
             ):(
-                <Text> {setMensagens} </Text>
+                <Text> {mensagem} </Text>
             )}
         </View>
     )
@@ -83,7 +120,6 @@ function Anuncio(props){
         titulo,
         description,
         imagens,
-        rating,
         preco,
         id,
         usuario
@@ -102,7 +138,7 @@ function Anuncio(props){
         <View style={styles.infobox}>
             <Text style={styles.tiutlo}>{titulo}</Text>
             <Text style={styles.desc}>{description.substring(0,50)}</Text>
-            <Text style={styles.quenga}>Quenga</Text>
+            <Text style={styles.quenga}>Usuário</Text>
             <View style={styles.avatarbox}>
                 <Avatar source={ photoURL ? {uri: photoURL} :require("../../../assets/avatar.png")} 
                     rounded
@@ -111,19 +147,83 @@ function Anuncio(props){
                 />
                 <Text style={styles.dnome}>{displayName}</Text>
             </View>
-            <Rating 
-                imageSize={15}
-                startingValue={rating}
-                style={{paddingLeft: 40, marginTop: 5}}
-                readonly
-            />
+           
             <Text style={styles.preco}>{preco.toFixed(2)}</Text>
         </View>
         </TouchableOpacity>
     )
 }
 
+function BotaoCategoria(props){
+    const {categoriabotao, categoria, icon, texto, setCategoria} = props
+
+    return(
+        <TouchableOpacity
+            style={categoria===categoriabotao ? styles.categoriahover : styles.categoriabtn}
+            onPress={()=>{
+                setCategoria(categoriabotao)
+            }}
+        >
+            <Icon 
+                type="material-community" 
+                name={icon} size={30} 
+                color={categoria===categoriabotao ? "#e8e3d4" : "#cd090b"} 
+            />
+            <Text style={categoria===categoriabotao ? styles.catxhover : styles.catx}>
+                {texto}
+            </Text>
+        </TouchableOpacity>
+    )
+}
+
 const styles = StyleSheet.create({
+    titulocategoria:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    textcategoria:{
+        color:"#0b070b",
+        fontSize: 14,
+        fontWeight: 'bold'
+    },
+    categoria:{
+        marginTop: 10,
+    },
+    catxhover:{
+        fontSize: 12,
+        fontStyle: 'italic',
+        color: '#e8e3d4'
+    },
+    catx:{
+        fontSize: 12,
+        fontStyle: 'italic',
+        color: '#cd090b'
+    },
+    categoriahover:{
+        width: 80,
+        height:80,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowOffset:{width:7.0, height:-8.0},
+        shadowOpacity: 0.5,
+        shadowColor: "#000",
+        backgroundColor: "#cd090b",
+        borderRadius: 40,
+        elevation: 1
+    },
+    categoriabtn:{
+        width: 80,
+        height:80,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowOffset:{width:7.0, height:-8.0},
+        shadowOpacity: 0.5,
+        shadowColor: "#000",
+        backgroundColor: "#e8e3d4",
+        borderRadius: 40,
+        elevation: 1
+    },
     preco:{
         marginTop: 10,
         fontSize: 24,
@@ -197,5 +297,11 @@ const styles = StyleSheet.create({
     },
     dnome:{
         marginLeft: 5
+    },
+    catlist:{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        paddingTop: 5
     }
 })
