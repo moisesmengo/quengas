@@ -4,6 +4,7 @@ import {Icon, Avatar, Image, Rating, Badge } from 'react-native-elements'
 import {useNavigation, useFocusEffect} from '@react-navigation/native'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import {size} from 'lodash'
+import Busca from '../../Componentes/Busca'
 import {ListarAnuncios, ObterUsuario} from '../../Utils/Acoes'
 
 export default function Anuncios(){
@@ -53,6 +54,7 @@ export default function Anuncios(){
                             />
                         </View>
                     </View>
+                    <Busca />
                 </KeyboardAwareScrollView>
             </View>
             <Text>Tela de  anuncios</Text>
