@@ -250,3 +250,20 @@ export const obterRegistroID = async (col, doc) =>{
     
         return response
 }
+
+export const ListarAnuncios = async () =>{
+    const anunciosList = [] 
+
+    await db.collection("Anuncios")
+        .where("status", "==", 1)
+        .get()
+        .then(response =>{
+            response.forEach((doc)=>{
+                const anuncio = doc.data()
+                anuncio.id = doc.id
+                anunciosList.push(anuncio)
+            })
+        }).catch(err => console.log(err))
+
+    return anunciosList
+}

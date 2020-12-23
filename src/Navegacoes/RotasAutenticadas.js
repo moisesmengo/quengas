@@ -35,7 +35,7 @@ const TabBar = () => {
                 component = {AnuncioStack}
                 name = "anuncio"
                 options ={{
-                    title: "Anuncio"
+                    title: "Anuncios"
                 }}
             />
 
