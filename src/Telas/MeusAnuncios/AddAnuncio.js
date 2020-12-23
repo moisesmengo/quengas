@@ -107,7 +107,7 @@ export default function AddAnuncio(){
                 onChangeText={(text) => setPreco(parseFloat(text))}
                 inputStyle={styles.input}
                 errorMessage={errors.preco}
-                keyboardType='number-pad'
+                keyboardType='numbers-and-punctuation'
             />
 
             <Text style={styles.textlabel}>Qualidade do serviço</Text>

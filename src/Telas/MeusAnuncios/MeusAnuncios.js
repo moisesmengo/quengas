@@ -1,8 +1,8 @@
 import React, {useCallback, useState, useEffect} from 'react'
-import {View, Text, StyleSheet, FlatList, Image } from 'react-native'
+import {View, Text, StyleSheet, FlatList, Image, Alert } from 'react-native'
 import {Icon} from 'react-native-elements'
-import {useNavigation} from '@react-navigation/native'
-import {ListarMeusAnuncios} from '../../Utils/Acoes'
+import {useNavigation, useFocusEffect} from '@react-navigation/native'
+import {ListarMeusAnuncios, eliminarAnuncio} from '../../Utils/Acoes'
 
 export default function MeusAnuncios(){
     const navigation = useNavigation()
@@ -16,6 +16,16 @@ export default function MeusAnuncios(){
         )()
     },[])
 
+    useFocusEffect(
+        useCallback(()=>{
+            (
+                async () =>{
+                    setAnuncios(await ListarMeusAnuncios())
+                }
+            )()
+        }, [])
+    )
+
     return(
         <View style={{flex:1, justifyContent: 'center'}}>
 
@@ -25,7 +35,7 @@ export default function MeusAnuncios(){
                         data = {anuncios}
                         renderItem={(item)=>(
                             <Anuncio 
-                                anuncios = {item}
+                                anuncio = {item}
                                 setAnuncios={setAnuncios}
                                 navigation={navigation}
                             />
@@ -68,8 +78,9 @@ export default function MeusAnuncios(){
 }
 
 const Anuncio = (props) =>{
-    const {anuncios, setAnuncios, navigation} = props
-    const {description, preco, id, imagens, titulo} = anuncios.item
+    const {anuncio, setAnuncios, navigation} = props
+
+    const {description, preco, id, imagens, titulo} = anuncio.item
 
     return(
         <View style={styles.container}>
@@ -86,17 +97,7 @@ const Anuncio = (props) =>{
                 <Text style={styles.preco}>R$ {parseFloat(preco).toFixed(2)}</Text>
 
                 <View  style={styles.iconbar}>
-                    <View style={styles.icon}>
-                        <Icon 
-                            style={styles.icon}
-                            type="material-community"
-                            name="check-outline"
-                            color="#25d366"
-                            onPress={()=>{
-                                console.log("dar de alta")
-                            }}
-                        />
-                    </View>
+                    
                     <View style={styles.iconedit}>
                         <Icon 
                             style={styles.iconedit}
@@ -104,7 +105,8 @@ const Anuncio = (props) =>{
                             name="pencil-outline"
                             color="#ffa000"
                             onPress={()=>{
-                                console.log("editar")
+                                navigation.navigate("editar-anuncio", {id})
+                                
                             }}
                         />
                     </View>
@@ -114,8 +116,19 @@ const Anuncio = (props) =>{
                             type="material-community"
                             name="trash-can-outline"
                             color="#d32f2f"
-                            onPress={()=>{
-                                console.log("eliminar")
+                            onPress={async ()=>{
+                            Alert.alert("Remover anúncio", 
+                            "Deseja eliminar o anúncio?", [{
+                                style: "default",
+                                text: 'Confirmar', 
+                                onPress: async()=>{
+                                    await eliminarAnuncio("Anuncios", id)
+                                    setAnuncios(await ListarMeusAnuncios())
+                                }
+                            },{
+                                style: 'default',
+                                text: 'Sair'
+                            } ])                               
                             }}
                         />
                     </View>
