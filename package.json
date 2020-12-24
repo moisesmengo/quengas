@@ -37,6 +37,7 @@
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.0",
+    "react-native-snap-carousel": "^3.9.1",
     "react-native-web": "~0.13.12",
     "react-native-webview": "^11.0.2",
     "react-navi": "^0.14.4"

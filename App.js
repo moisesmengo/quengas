@@ -15,7 +15,9 @@ if(!global.atob){
   global.atob = decode
 }
 
-YellowBox.ignoreWarnings(["Animated", "Setting a timer", "YellowBox has been"])
+YellowBox.ignoreWarnings(["Animated", "Setting a timer", "YellowBox has been" ,
+  "Failed prop type: Invalid prop `isVisible`"
+])
 
 export default function App() {
 
