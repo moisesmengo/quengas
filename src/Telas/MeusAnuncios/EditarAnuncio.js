@@ -33,7 +33,6 @@ export default function EditarAnuncio(props){
                 setDescription(data.description)
                 setPreco(data.preco)
                 setImagens(data.imagens)
-                setRating(data.rating)
                 setCategoria(data.categoria)
             }
         )()
@@ -129,15 +128,7 @@ export default function EditarAnuncio(props){
                 value={preco.toFixed(2)}
             />
 
-            <Text style={styles.textlabel}>Qualidade do serviço</Text>
-            <AirbnbRating count={5}
-                reviews={["Péssimo", "Ruim", "Normal", "Bom", "Excelente"]}
-                defaultRating={5}
-                size={35}
-                onFinishRating={(value) => {
-                    setRating(value)
-                }}
-            />
+           
             <View>
                 <Text style={styles.textlabel}>Adcionar imagens</Text>
                 <SubirImagens imagens={imagens} setImagens={setImagens} />

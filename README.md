@@ -29,4 +29,5 @@ aplicativo ou pelo whatsapp.
 - Listar anúncios de uma prostituta específica;
 - Editar anúncios de uma prostituta específica;
 - Listar anúncios;
-- Filtrar anúncio por categoria
+- Filtrar anúncio por categoria;
+- Buscar anúncio

@@ -50,7 +50,3 @@ export default function Busca( props ){
         />
     )
 }
-
-const styles = StyleSheet.create({
-
-})

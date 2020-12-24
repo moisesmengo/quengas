@@ -25,6 +25,14 @@ export default function Anuncios(){
         })()
     }, [])
 
+    useFocusEffect(
+        useCallback(()=>{
+            (async ()=>{
+                setAnuncioList(await ListarAnuncios())
+            })()
+        },[])
+    )
+
     const carregarFiltroPorCategoria = async (categoria) =>{
         const listarAnunciosFiltro = await ListarAnunciosPorCategoria(categoria)
         setAnuncioList(listarAnunciosFiltro)
@@ -118,7 +126,7 @@ export default function Anuncios(){
                         carregarFiltroPorCategoria={carregarFiltroPorCategoria}
                     />
                     <BotaoCategoria 
-                        categoriabotao="travestis"
+                        categoriabotao="traveco"
                         categoria={categoria}
                         icon="face"
                         texto="Travestís"
