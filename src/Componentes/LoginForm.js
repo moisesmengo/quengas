@@ -117,9 +117,8 @@ export default function LoginForm(props){
                 }}
             />
 
-            <Text style={styles.ou}>Ou</Text>
 
-            <View style={styles.btnLogin}>
+            {/* <View style={styles.btnLogin}>
                 <TouchableOpacity style={styles.loginSocial}>
                     <Icon 
                         size={24}
@@ -138,7 +137,7 @@ export default function LoginForm(props){
                         backgroundColor="transparent"
                     />
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             <Loading isVisible= {loading}/>
         </View>

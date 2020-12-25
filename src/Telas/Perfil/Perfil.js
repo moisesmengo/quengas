@@ -176,7 +176,7 @@ function TopoBG(){
                 <Text style={{
                     alignSelf: 'center',
                     color: '#e8e3d4'
-                }}>Encerrar</Text>
+                }}>Sair</Text>
 
             </View>
                 
