@@ -314,3 +314,51 @@ export const Buscar = async (search) =>{
 
     return anuncios
 }
+
+export const IniciarNotificacoes = (notificationListener, responseListener) =>{
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        console.log(notification);
+      });
+  
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
+  
+      return () => {
+        Notifications.removeNotificationSubscription(notificationListener);
+        Notifications.removeNotificationSubscription(responseListener);
+      };
+}
+
+export const sendPushNotification = async (expoPushToken) =>{
+    const message = {
+      to: expoPushToken,
+      sound: 'default',
+      title: 'Original Title',
+      body: 'And here is the body!',
+      data: { data: 'goes here' },
+    };
+  
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+}
+
+export const setMensagemNotificacao = (token, titulo, body, data) => {
+    const message = {
+        to: token,
+        sound: 'default',
+        title: titulo,
+        body: body,
+        data:data,
+      };
+    
+      return message
+}
+  

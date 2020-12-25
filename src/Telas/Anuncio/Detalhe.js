@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import {Avatar, Icon, Input, Button, Image} from 'react-native-elements'
-import {obterRegistroID, ObterUsuario} from '../../Utils/Acoes'
+import {obterRegistroID, ObterUsuario, sendPushNotification} from '../../Utils/Acoes'
 import {size, map} from 'lodash'
 import Loading from '../../Componentes/Loading'
+import Modal from '../../Componentes/Modal'
+
+
 export default function Detalhe(props){
     const {route} = props
     const {id, titulo} = route.params
@@ -49,7 +52,7 @@ export default function Detalhe(props){
                     width: 400,
                     height: 220,
                     flexDirection: 'row',
-                    backgroundColor: '#ce615e',
+                    backgroundColor: '#cd090b',
                 }}>
                     {
                         map(anuncio.imagens, (img, index) =>(
@@ -63,7 +66,7 @@ export default function Detalhe(props){
                 
                 <View style={styles.boxsuperior}>
                     <View style={{
-                        borderBottomColor: '#000',
+                        borderBottomColor: '#ce615e',
                         borderBottomWidth: 2,
                         width: 100,
                         alignSelf: 'center'
@@ -97,7 +100,7 @@ export default function Detalhe(props){
                                     color="#25d366"
                                     size={40}
                                     onPress = {()=>{
-                                        console.log("MSG")
+                                        sendPushNotification("ExponentPushToken[iMBxFbGCHu7aFFpU52A2zp]")
                                     }}
                                 /><Icon 
                                 type="material-community"
@@ -111,6 +114,19 @@ export default function Detalhe(props){
                             </View>
                         </View>
                     </View>
+                    <EnviarMensagem
+                        isVisible={isVisible}
+                        setIsvisible={setIsvisible}
+                        nomeVendendor={nomeVendendor}
+                        avatarVendedor={photoVendedor}
+                        mensagem={mensagem}
+                        setMensagem={setMensagem}
+                        receiver={anuncio.usuario}
+                        sender={usuarioAtual.uid}
+                        token={expoPushToken}
+                        anuncio={anuncio}
+                        setLoading={setLoading}
+                    />
                 </View>
 
             </ScrollView>
@@ -118,7 +134,72 @@ export default function Detalhe(props){
     }
 }
 
+function EnviarMensagem(props){
+    const {isVisible, setIsvisible, nomeVendendor, avatarVendedor,
+         mensagem, setMensagem, receiver, sender, token, anuncio, setLoading} = props
+
+    const enviarNotificacao = () =>{
+        console.log("ROLA")
+    }
+
+    return(
+        <Modal
+            isVisible={true}
+            setIsvisible={setIsvisible}
+        >
+            <View 
+                style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: 16,
+                    borderRadius: 20
+                }}
+            >
+
+                <Avatar 
+                    source={avatarVendedor ? {uri:avatarVendedor} : require("../../../assets/avatar.png")}
+                    style={styles.photovend}
+                />
+
+                <Text style={{
+                    color: '#0b070b',
+                    fontSize: 16,
+                    fontWeight: 'bold'
+                }}>Enviar mensagem para {nomeVendendor}</Text>
+
+                <Input placeholder="Escreva sua mensagem" 
+                    multiline={true} style={styles.textarea}
+                    onChangeText={(text)=>{
+                        setMensagem(text)
+                    }}
+                    value={mensagem}
+                />
+
+                <Button 
+                    title="Enviar Mensagem"
+                    buttonStyle={styles.btnmensagem}
+                    containerStyle={{width: '90%'}}
+                    onPress={enviarNotificacao}
+                />
+            </View>
+        </Modal>
+    )
+}
+
 const styles = StyleSheet.create({
+    btnmensagem:{
+        backgroundColor: '#5c2a2d'
+    },
+    textarea:{
+        height: 150
+    },
+    photovend:{
+        width: 60,
+        height: 60,
+        alignSelf: 'center',
+        marginTop: 20,
+        marginBottom: 20
+    },
     boxsuperior: {
         backgroundColor: '#e8e3d4',
         marginTop: -50,
