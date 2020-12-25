@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import {View, Text, StyleSheet, Dimensions, ScrollView, Alert } from 'react-native'
 import {Avatar, Icon, Input, Button, Image} from 'react-native-elements'
-import {obterRegistroID, ObterUsuario, sendPushNotification} from '../../Utils/Acoes'
+import {addRegistro, obterRegistroID, ObterUsuario, 
+        sendPushNotification, setMensagemNotificacao} from '../../Utils/Acoes'
 import {size, map} from 'lodash'
+import {enviarWhatsapp} from '../../Utils/Utils'
 import Loading from '../../Componentes/Loading'
 import Modal from '../../Componentes/Modal'
 
@@ -15,7 +17,7 @@ export default function Detalhe(props){
     const [expoPushToken, setExpoPushToken] = useState("")
     const [nomeVendendor, setNomeVendendor] = useState("Nome")
     const [photoVendedor, setPhotoVendedor] = useState("")
-    const [phoneVendedor, setPhoneVendedor] = useState("")
+    const [phoneNumber, setPhoneNumber] = useState("")
     const [imagens, setImagens] = useState([])
     const [mensagem, setMensagem] = useState("")
     const [activeSlide, setActiveSlide] = useState(0)
@@ -39,7 +41,7 @@ export default function Detalhe(props){
                 setExpoPushToken(resultado.token)
                 setNomeVendendor(resultado.displayName)
                 setPhotoVendedor(resultado.photoURL)
-                setPhoneVendedor(resultado.phoneNumber)
+                setPhoneNumber(resultado.phoneNumber)
             }
         })()
     },[anuncio])
@@ -100,7 +102,7 @@ export default function Detalhe(props){
                                     color="#25d366"
                                     size={40}
                                     onPress = {()=>{
-                                        sendPushNotification("ExponentPushToken[iMBxFbGCHu7aFFpU52A2zp]")
+                                        setIsvisible(true)
                                     }}
                                 /><Icon 
                                 type="material-community"
@@ -108,7 +110,11 @@ export default function Detalhe(props){
                                 color="#25d366"
                                 size={40}
                                 onPress = {()=>{
-                                    console.log("MSG")
+                                    const mensagemWhatssapp = `Olá ${nomeVendendor},
+                                        meu nome é ${usuarioAtual.displayName}. Vi seu
+                                        anúncio ${anuncio.titulo} que está no Quenga's
+                                        `
+                                    enviarWhatsapp(phoneNumber, mensagem)
                                 }}
                             />
                             </View>
@@ -126,7 +132,10 @@ export default function Detalhe(props){
                         token={expoPushToken}
                         anuncio={anuncio}
                         setLoading={setLoading}
+                        nomeCliente={usuarioAtual.displayName}
                     />
+
+                    <Loading isVisible={loading} />
                 </View>
 
             </ScrollView>
@@ -136,15 +145,64 @@ export default function Detalhe(props){
 
 function EnviarMensagem(props){
     const {isVisible, setIsvisible, nomeVendendor, avatarVendedor,
-         mensagem, setMensagem, receiver, sender, token, anuncio, setLoading} = props
+         mensagem, setMensagem, receiver, sender, token, anuncio, setLoading,
+         nomeCliente
+        } = props
 
-    const enviarNotificacao = () =>{
-        console.log("ROLA")
+    const enviarNotificacao = async () =>{
+       if(!mensagem){
+           Alert.alert("Validação", "Por favor preencha o campo de mensagem",  
+           [{
+            style:"default",
+            text:"Entendi"
+           }]
+           )
+       }else{
+           setLoading(true)
+           const notificacao = {
+               sender: sender,
+               receiver: receiver,
+               mensagem,
+               dataDeCriacao : new Date(),
+               anuncioId: anuncio.id,
+               anucioTitulo: anuncio.titulo,
+               visto: 0
+           }
+
+           const resultado = await addRegistro("Notificacoes", notificacao)
+
+           if(resultado.statusresponse){
+               const mensagemNotification = setMensagemNotificacao(
+                   token, 
+                   `Cliente Interessado - ${anuncio.titulo}`,
+                   `${nomeCliente}, te enviou uma mensagem`,
+                   {data: "Interessado!"}
+                )
+
+                const resposta = await sendPushNotification(mensagemNotification)
+                setLoading(false)
+
+                if(resposta){
+                    Alert.alert("Mensage Enviada", "Foi enviada uma mensagem para a dona do anúncio", [{
+                        style: 'cancel',
+                        text: 'Entendi',
+                        onPress: ()=> setIsvisible(false),
+                    }])
+                    setMensagem("")
+                } else{
+                    Alert.alert("Erro", "Erro ao enviar a mensagem", [{
+                        style: 'cancel',
+                        text: 'Entendi'
+                    }])
+                    setLoading(false)
+                }
+           }
+       }
     }
 
     return(
         <Modal
-            isVisible={true}
+            isVisible={isVisible}
             setIsvisible={setIsvisible}
         >
             <View 

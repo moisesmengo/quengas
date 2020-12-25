@@ -1,5 +1,7 @@
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
+import {Alert, Linking} from 'react-native'
+import { size } from 'lodash'
 
 export const validarEmail = (text) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -35,4 +37,18 @@ export const converterImagemBlob = async (rota) =>{
     const arquivo = await fetch(rota)
     const blob = await arquivo.blob()
     return blob
+}
+
+export const enviarWhatsapp = (numero, text) =>{
+    let link = `whatsapp://send?phone=${numero.substring(1, size(numero))}&text=${text}`
+    console.log(link)
+
+    Linking.openURL(link)
+    .then((supported)=>{
+        if(!supported){
+            Alert.alert("Por favor instale o whatsapp para enviar a mensagem")
+        }else{
+            return Linking.openURL(link)
+        }
+    })
 }

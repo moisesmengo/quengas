@@ -330,14 +330,8 @@ export const IniciarNotificacoes = (notificationListener, responseListener) =>{
       };
 }
 
-export const sendPushNotification = async (expoPushToken) =>{
-    const message = {
-      to: expoPushToken,
-      sound: 'default',
-      title: 'Original Title',
-      body: 'And here is the body!',
-      data: { data: 'goes here' },
-    };
+export const sendPushNotification = async (mensagem) =>{
+    let resposta = false
   
     await fetch('https://exp.host/--/api/v2/push/send', {
       method: 'POST',
@@ -346,8 +340,12 @@ export const sendPushNotification = async (expoPushToken) =>{
         'Accept-encoding': 'gzip, deflate',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(message),
-    });
+      body: JSON.stringify(mensagem),
+    }).then(response => {
+        resposta=true
+    })
+
+    return resposta
 }
 
 export const setMensagemNotificacao = (token, titulo, body, data) => {
