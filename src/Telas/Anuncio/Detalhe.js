@@ -29,7 +29,6 @@ export default function Detalhe(props){
     useEffect(()=>{
         (async ()=>{
             setAnuncio((await obterRegistroID("Anuncios", id)).data)
-            setImagens(anuncio.imagens)
         })()
     }, [])
 
@@ -96,15 +95,7 @@ export default function Detalhe(props){
                         <View>
                             <Text style={styles.displayname}>{nomeVendendor ? nomeVendendor : "Anônimo"}</Text>
                             <View style={styles.boxinternoavatar}>
-                                <Icon 
-                                    type="material-community"
-                                    name="message-text-outline"
-                                    color="#25d366"
-                                    size={40}
-                                    onPress = {()=>{
-                                        setIsvisible(true)
-                                    }}
-                                /><Icon 
+                            <Icon 
                                 type="material-community"
                                 name="whatsapp"
                                 color="#25d366"
@@ -113,28 +104,15 @@ export default function Detalhe(props){
                                     const mensagemWhatssapp = `Olá ${nomeVendendor},
                                         meu nome é ${usuarioAtual.displayName}. Vi seu
                                         anúncio ${anuncio.titulo} que está no Quenga's
+                                
                                         `
-                                    enviarWhatsapp(phoneNumber, mensagem)
+                                    enviarWhatsapp(phoneNumber, mensagemWhatssapp)
                                 }}
                             />
                             </View>
                         </View>
                     </View>
-                    <EnviarMensagem
-                        isVisible={isVisible}
-                        setIsvisible={setIsvisible}
-                        nomeVendendor={nomeVendendor}
-                        avatarVendedor={photoVendedor}
-                        mensagem={mensagem}
-                        setMensagem={setMensagem}
-                        receiver={anuncio.usuario}
-                        sender={usuarioAtual.uid}
-                        token={expoPushToken}
-                        anuncio={anuncio}
-                        setLoading={setLoading}
-                        nomeCliente={usuarioAtual.displayName}
-                    />
-
+                    
                     <Loading isVisible={loading} />
                 </View>
 
@@ -143,106 +121,7 @@ export default function Detalhe(props){
     }
 }
 
-function EnviarMensagem(props){
-    const {isVisible, setIsvisible, nomeVendendor, avatarVendedor,
-         mensagem, setMensagem, receiver, sender, token, anuncio, setLoading,
-         nomeCliente
-        } = props
 
-    const enviarNotificacao = async () =>{
-       if(!mensagem){
-           Alert.alert("Validação", "Por favor preencha o campo de mensagem",  
-           [{
-            style:"default",
-            text:"Entendi"
-           }]
-           )
-       }else{
-           setLoading(true)
-           const notificacao = {
-               sender: sender,
-               receiver: receiver,
-               mensagem,
-               dataDeCriacao : new Date(),
-               anuncioId: anuncio.id,
-               anucioTitulo: anuncio.titulo,
-               visto: 0
-           }
-
-           const resultado = await addRegistro("Notificacoes", notificacao)
-
-           if(resultado.statusresponse){
-               const mensagemNotification = setMensagemNotificacao(
-                   token, 
-                   `Cliente Interessado - ${anuncio.titulo}`,
-                   `${nomeCliente}, te enviou uma mensagem`,
-                   {data: "Interessado!"}
-                )
-
-                const resposta = await sendPushNotification(mensagemNotification)
-                setLoading(false)
-
-                if(resposta){
-                    Alert.alert("Mensage Enviada", "Foi enviada uma mensagem para a dona do anúncio", [{
-                        style: 'cancel',
-                        text: 'Entendi',
-                        onPress: ()=> setIsvisible(false),
-                    }])
-                    setMensagem("")
-                } else{
-                    Alert.alert("Erro", "Erro ao enviar a mensagem", [{
-                        style: 'cancel',
-                        text: 'Entendi'
-                    }])
-                    setLoading(false)
-                }
-           }
-       }
-    }
-
-    return(
-        <Modal
-            isVisible={isVisible}
-            setIsvisible={setIsvisible}
-        >
-            <View 
-                style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontSize: 16,
-                    borderRadius: 20
-                }}
-            >
-
-                <Avatar 
-                    source={avatarVendedor ? {uri:avatarVendedor} : require("../../../assets/avatar.png")}
-                    style={styles.photovend}
-                />
-
-                <Text style={{
-                    color: '#0b070b',
-                    fontSize: 16,
-                    fontWeight: 'bold'
-                }}>Enviar mensagem para {nomeVendendor}</Text>
-
-                <Input placeholder="Escreva sua mensagem" 
-                    multiline={true} style={styles.textarea}
-                    onChangeText={(text)=>{
-                        setMensagem(text)
-                    }}
-                    value={mensagem}
-                />
-
-                <Button 
-                    title="Enviar Mensagem"
-                    buttonStyle={styles.btnmensagem}
-                    containerStyle={{width: '90%'}}
-                    onPress={enviarNotificacao}
-                />
-            </View>
-        </Modal>
-    )
-}
 
 const styles = StyleSheet.create({
     btnmensagem:{

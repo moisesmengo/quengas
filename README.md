@@ -31,4 +31,5 @@ aplicativo ou pelo whatsapp.
 - Listar anúncios;
 - Filtrar anúncio por categoria;
 - Buscar anúncio;
-- marketplace
+- marketplace;
+- Enviar mensagem pelo whatsapp;

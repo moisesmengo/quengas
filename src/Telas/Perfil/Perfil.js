@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import {View, Text, StyleSheet, StatusBar } from 'react-native'
 import {Icon, Avatar, Input} from 'react-native-elements'
 import {carregarImagens, validarEmail} from '../../Utils/Utils'
+import {encerrarSessao} from '../../Utils/Acoes'
 import Loading from '../../Componentes/Loading'
 import InputEditavel from '../../Componentes/InputEditavel'
 import Modal from '../../Componentes/Modal'
@@ -18,6 +19,7 @@ import {
         atualizarEmailFirebase
     } from '../../Utils/Acoes'
 import { cos } from 'react-native-reanimated'
+import { ScrollView } from 'react-native-gesture-handler'
 
 export default function Perfil(){
 
@@ -125,7 +127,7 @@ export default function Perfil(){
     }
 
     return(
-        <View>
+        <ScrollView>
             <StatusBar backgroundColor="#cd090b" />
             <TopoBG /> 
             <HeaderAvatar 
@@ -155,21 +157,39 @@ export default function Perfil(){
 
             <FirebaseRecapcha referencia={recapcha} />
             <Loading isVisible={loading} />
-        </View>
+        </ScrollView>
     )
 }
 
 function TopoBG(){
     return(
         <View>
+
+            <View style={styles.sair}>
+                <Icon 
+                    type="material-community"
+                    size={36}
+                    name="exit-to-app"
+                    color="#e8e3d4"
+                    onPress={()=> encerrarSessao()}
+                />
+                <Text style={{
+                    alignSelf: 'center',
+                    color: '#e8e3d4'
+                }}>Encerrar</Text>
+
+            </View>
+                
             <View style={styles.bg}>
+            
                 <Text
                     style={{
                         color: '#e8e3d4', fontSize: 18, fontWeight: 'bold'
                     }}
                 >
-                   Meus Dados
+                Meus Dados
                 </Text>
+                
             </View>
         </View>
     )
@@ -205,6 +225,7 @@ function HeaderAvatar (props){
 
     return(
         <View style={styles.avatarinline}>
+            
             <Avatar
                 source={ imagemPerfil 
                     ?  {uri: imagemPerfil}
@@ -310,6 +331,9 @@ function ModalVerification(props){
 }
 
 const styles = StyleSheet.create({
+    sair:{
+        backgroundColor: '#cd090b'
+    },
     bg:{
         width: "100%",
         height: 200,

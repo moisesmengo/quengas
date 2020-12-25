@@ -359,4 +359,8 @@ export const setMensagemNotificacao = (token, titulo, body, data) => {
     
       return message
 }
+
+export const EncerrarSessao = () =>{
+    firebase.auth().signOut()
+}
   

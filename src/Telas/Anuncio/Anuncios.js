@@ -62,19 +62,6 @@ export default function Anuncios(){
                             style={styles.logo}
                         />
 
-                        <View>
-                            <Icon
-                                type="material-community"
-                                name="bell-outline"
-                                color="#e8e3d4"
-                                size={30}
-                            />
-                            <Badge 
-                                status="error"
-                                containerStyle={{position: 'absolute', top:-4, right: -4}}
-                                value={2}
-                            />
-                        </View>
                     </View>
                     <Busca 
                         setAnuncioList={setAnuncioList}
