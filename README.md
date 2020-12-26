@@ -38,9 +38,4 @@ para divulgar seus trabalhos e ecncontrar intereçados.
 - Na tela inicial do app, você tem a opção
   de fazer login ou criar uma nova conta. Para seu
   primeiro acesso, você deve clicar em **Criar conta**
-  ![inicial](/assets/telas/1.png){wid}
-
-img[alt="inicial"] {
-max-width: 200px;
-display: block;
-}
+  ![inicial](/assets/telas/1.png){ width=25% }
