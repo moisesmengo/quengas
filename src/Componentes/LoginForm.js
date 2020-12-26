@@ -100,7 +100,7 @@ export default function LoginForm(props){
             />
 
             <Text style={styles.criarContaTexto}>
-                Ainda não é uma Quenga? 
+                Deseja conhecer ou virar Quenga? 
                     <Text 
                         style={styles.conta}
                         onPress={()=> navigation.navigate("registro")}

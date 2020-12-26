@@ -5,8 +5,7 @@
 **Projeto para a displina de Dispositivos Móveis - TADS 7v**
 
 O projeto consiste em uma plataforma onde prostitutas podem criar anúncios
-para divulgar seus trabalhos. Permite comunicação via mensagens pelo próprio
-aplicativo ou pelo whatsapp.
+para divulgar seus trabalhos e ecncontrar intereçados.
 
 ### Tecnologias utilizadas
 
@@ -35,3 +34,8 @@ aplicativo ou pelo whatsapp.
 - Enviar mensagem pelo whatsapp;
 
 ### Instruções
+
+- Na tela inicial do app, você tem a opção
+  de fazer login ou criar uma nova conta. Para seu
+  primeiro acesso, você deve clicar em **Criar conta**
+  ![tela inicial](/assets/telas/1.png)

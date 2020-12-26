@@ -15,7 +15,7 @@ export default function Login() {
                 style = {styles.imgLogo}
             />
 
-            <Text style={styles.TextoBanner}>Bem-vinda!</Text>
+            <Text style={styles.TextoBanner}>Bem-vindos!</Text>
 
             <LoginForm  toastRef={toastRef} />
             
