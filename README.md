@@ -10,7 +10,7 @@ para divulgar seus trabalhos e ecncontrar intereçados.
 ### Tecnologias utilizadas
 
 - React native
-- Expo
+- Expogit
 - Firebase
   -- Authentication
   -- Cloud Firestore
@@ -54,9 +54,11 @@ para divulgar seus trabalhos e ecncontrar intereçados.
 
 - Será exibido uma recapcha de verificação, para confirmar
   que não existe um robô corrigindo meu projeto.
-  Após a verificação será enviado um código de confirmação, porém,
-  defini um código padrão **123456** por equnato, esse código deve ser inserido
-  nos campos que aparecem na tela. Após isso você está autenticado no sistema.
+  Após a verificação será enviado um código de confirmação, porém, essa
+  parte apresentou um erro no expo, então cadastrei manualmente
+  alguns números fakes no firebase (84912345678) (84932103210) (84999999999).
+  O código de validação é sempre **123456**
+  Após isso você está autenticado no sistema.
   Você é direcionado para a página que corresponde ao marketplace.
 
   ![marketplace](/assets/telas/4.png)
@@ -82,7 +84,8 @@ para divulgar seus trabalhos e ecncontrar intereçados.
 ![meus-anuncios](/assets/telas/8.png)
 
 - Clique no anúncio para obter detalhes. Caso queira entrar em contato com a dona do anúncio
-  basta clicar no ícone de whatsapp.
+  basta clicar no ícone de whatsapp. Nessa parte, o único número válido que existe para testar
+  é o meu próprio número que foi cadastrado diretamente no firebase e está com perfil do **It**
 
 ![meus-anuncios](/assets/telas/9.png)
 ![meus-anuncios](/assets/telas/10.png)
